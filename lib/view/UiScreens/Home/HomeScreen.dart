@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Stack(
             children: [
               GridView.builder(
-                itemCount: ,
+                itemCount: 10,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, mainAxisExtent: 32.h),
                 itemBuilder: (contest, index) {
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
-                                    "${home_providerf!.i1[index].Image2}",
+                                    "",
                                     fit: BoxFit.fill,
                                     height: 35.h,
                                     width: 48.w,
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5.0.sp),
                                                   child: Text(
-                                                    "${home_providerf!.i1[index].Name2}",
+                                                    "",
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 18),
