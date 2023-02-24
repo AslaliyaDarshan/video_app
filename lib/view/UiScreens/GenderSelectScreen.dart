@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/Controller/HomeController.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class GenderSelectScreen extends StatefulWidget {
@@ -11,38 +13,65 @@ class GenderSelectScreen extends StatefulWidget {
 }
 
 class _GenderSelectScreenState extends State<GenderSelectScreen> {
+  HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: GlobalWidget.backgroundColor(
-          Column(
+          Stack(
+            alignment: Alignment.bottomCenter,
             children: [
-              height(5.h),
-              Text(
-                "Select Your Gender",
-                style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-              height(4.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Column(
                 children: [
-                  GlobalWidget.selectGender("assets/image/man.png"),
-                  GlobalWidget.selectGender("assets/image/female.png"),
-                ],
-              ), Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GlobalWidget.selectGender("assets/image/man.png"),
-                  GlobalWidget.selectGender("assets/image/female.png"),
+                  Container(
+                    height: 20.h,
+                    color: Colors.white60,
+                  ),
+                  GlobalWidget.poppinsText("Select Your Gender", Colors.white, 20.sp,pFontWeight: FontWeight.w500 ),
+                  height(4.h),
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GlobalWidget.selectGender(
+                          () {
+                             controller.mBlnSelect.value =true;
+                            controller.mBlnSelect1.value =false;
+                          },
+                          "assets/image/man.png",
+                          "Male",
+                          Border.all(
+                            color: controller.mBlnSelect.value == true?Colors.white:Colors.transparent,
+                            width:3,
+                          ),
+                        ),
+                        GlobalWidget.selectGender(
+                          () {
+                            controller.mBlnSelect1.value = true;
+                            controller.mBlnSelect.value = false;
+                          },
+                          "assets/image/female.png",
+                          "Female",
+                          Border.all(
+                            color: controller.mBlnSelect1.value ==false?Colors.transparent:Colors.white,
+                            width:3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GlobalWidget.confirmButton(() {
+                    Get.offNamed("/UserBirthday");
+                  }),
+                  GlobalWidget.poppinsText(
+                      "Please Select Anyone", Colors.white, 12.sp)
                 ],
               ),
-              GlobalWidget.confirmButton(() {
-                Navigator.pushReplacementNamed(context, "/UserBirthday");
-              }),
+              Container(
+                height: 16.h,
+                color: Colors.white60,
+              ),
             ],
           ),
         ),

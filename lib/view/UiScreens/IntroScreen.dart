@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -24,8 +25,8 @@ class _IntroScreenState extends State<IntroScreen> {
         globalBackgroundColor: const Color(0xFFFF576F).withOpacity(0.8),
         dotsDecorator: DotsDecorator(
           activeColor: Colors.white,
-          color: Colors.pinkAccent.shade400,
-          activeSize: const Size(13, 13),
+          color: Colors.pinkAccent.shade200,
+          activeSize: const Size(11, 11),
         ),
         done: Text(
           "START",
@@ -41,7 +42,7 @@ class _IntroScreenState extends State<IntroScreen> {
         onDone: () {
           // interAds();
           Timer(const Duration(milliseconds: 700), () {
-            Navigator.pushReplacementNamed(context, '/GenderSelect');
+            Get.offNamed('/GenderSelect');
           });
         },
         bodyPadding: const EdgeInsets.only(top: 10),
@@ -95,8 +96,9 @@ class _IntroScreenState extends State<IntroScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFFF576F).withOpacity(0.1),
-              Color(0xFFFF576F).withOpacity(0.9),
+              const Color(0xFFFF576F).withOpacity(0.7),
+              const Color(0xFFFF576F).withOpacity(0.9),
+              const Color(0xFFFF576F).withOpacity(0.7),
             ]),
       ),
     );

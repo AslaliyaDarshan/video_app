@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
@@ -18,7 +19,7 @@ class _SpleshScreenState extends State<SpleshScreen> {
   void initState() {
     Timer(
       const Duration(seconds: 5),
-          () => Navigator.pushReplacementNamed(context, "/TermsScreen"),
+          () => Get.offNamed( "/TermsScreen"),
     );
     super.initState();
   }

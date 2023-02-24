@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -24,7 +25,8 @@ class _TermsScreenState extends State<TermsScreen> {
             children: [
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   width: double.infinity,
                   height: double.infinity,
                   alignment: Alignment.center,
@@ -34,7 +36,9 @@ class _TermsScreenState extends State<TermsScreen> {
                   ),
                 ),
               ),
-              GlobalWidget.confirmButton(() {Navigator.pushReplacementNamed(context, "/IntroScreen");}),
+              GlobalWidget.confirmButton(() {
+                Get.offNamed("/IntroScreen");
+              }),
             ],
           ),
         ),
