@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/Controller/HomeController.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,15 +12,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: GlobalWidget.backgroundColor(
+        backgroundColor: Colors.pink.shade50,
+        body:
           Stack(
             children: [
               GridView.builder(
-                itemCount: 10,
+                itemCount: controller.list.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, mainAxisExtent: 32.h),
                 itemBuilder: (contest, index) {
@@ -55,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
-                                    "",
+                                    "${controller.list[index].image}",
                                     fit: BoxFit.fill,
                                     height: 35.h,
                                     width: 48.w,
@@ -86,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Padding(
                                                 padding: EdgeInsets.all(7.0.sp),
                                                 child: Container(
-                                                  height: 2.h,
-                                                  width: 2.h,
+                                                  height: 1.5.h,
+                                                  width: 1.5.h,
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color: Colors.greenAccent
@@ -119,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5.0.sp),
                                                   child: Text(
-                                                    "",
+                                                    "${controller.list[index].name}",
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 18),
@@ -136,8 +140,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Container(
                                                     height: 3.h,
                                                     width: 3.h,
-                                                    child: Image.asset(
-                                                        "assets/image/KNjVEZNv_400x400-removebg-preview.png"),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(35),
+                                                      child: Image.asset(
+                                                          "assets/image/indianFlag.jpg",fit: BoxFit.fill),
+                                                    ),
                                                   ),
                                                   SizedBox(
                                                     width: 1.h,
@@ -147,14 +154,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     width: 8.h,
                                                     decoration: BoxDecoration(
                                                       color:
-                                                          Colors.pink.shade400,
+                                                      const Color(0xFFFF576F),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
                                                     ),
                                                     child: Center(
                                                         child: Text(
-                                                      "⭐Lv5",
+                                                      "⭐ Lv5",
                                                       style: TextStyle(
                                                           color: Colors.white),
                                                     )),
@@ -166,27 +173,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.all(3.sp),
-                                          child: Stack(
+                                          child: Container(
+                                            height: 6.h,
+                                            width: 6.h,
                                             alignment: Alignment.center,
-                                            children: [
-                                              Container(
-                                                height: 6.h,
-                                                width: 6.h,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    child: Image.asset(
-                                                      "assets/image/Rectangle 3.png",
-                                                      fit: BoxFit.fill,
-                                                    )),
-                                              ),
-                                              Icon(
-                                                Icons.call,
-                                                color: Colors.white,
-                                                size: 25,
-                                              )
-                                            ],
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFFF576F),
+                                              borderRadius: BorderRadius.circular(50),
+                                              // /shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              Icons.call,
+                                              color: Colors.white,
+                                              size: 25,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
+
     );
   }
 }
