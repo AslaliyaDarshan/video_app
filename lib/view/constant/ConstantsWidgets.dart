@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
 
 class GlobalWidget {
   static backgroundColor(Widget child) {
@@ -12,9 +11,10 @@ class GlobalWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFFFF576F).withOpacity(0.7),
-            const Color(0xFFFF576F).withOpacity(0.9),
-            const Color(0xFFFF576F).withOpacity(0.7),
+            const Color(0xFFF5531A).withOpacity(0.7),
+            const Color(0xFFFF576F).withOpacity(0.8),
+            const Color(0xFFFF576F).withOpacity(0.8),
+            const Color(0xFFF5531A).withOpacity(0.7),
           ],
         ),
       ),

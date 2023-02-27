@@ -8,6 +8,16 @@ class HomeController extends GetxController {
   RxBool mBlnSelect2 = false.obs;
   RxBool mBlnSelect3 = false.obs;
   var date = DateTime.now();
+  VideoModel? model;
+  RxBool mBlnIsPlay = false.obs;
+  RxInt index = 0.obs;
+  changeIndex(int i){
+    index.value = i;
+  }
+
+  void playPause() {
+    mBlnIsPlay.value = !mBlnIsPlay.value;
+  }
 
   getData(dynamic data_1) {
     date = data_1;
@@ -51,7 +61,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/51.jpg",
         video: "assets/video/v19.mp4"),
     VideoModel(
-        name: "Xena",
+        name: "Siya",
         image: "assets/videoImage/52.jpg",
         video: "assets/video/v20.mp4"),
   ];

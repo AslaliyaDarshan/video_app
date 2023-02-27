@@ -18,68 +18,68 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: IntroductionScreen(
-        key: introKey,
-        globalBackgroundColor: const Color(0xFFFF576F).withOpacity(0.8),
-        dotsDecorator: DotsDecorator(
-          activeColor: Colors.white,
-          color: Colors.pinkAccent.shade200,
-          activeSize: const Size(11, 11),
+    return Scaffold(
+        body: IntroductionScreen(
+      key: introKey,
+      globalBackgroundColor:const Color(0xFFE04B62).withOpacity(0.7),
+      dotsDecorator: DotsDecorator(
+        activeColor: Colors.white,
+        color: Colors.pinkAccent.shade200,
+        activeSize: const Size(11, 11),
+      ),
+      done: Text(
+        "START",
+        style: TextStyle(color: Colors.white, fontSize: 13.sp),
+      ),
+      next: Icon(
+        Icons.arrow_forward,
+        size: 21.sp,
+        color: Colors.white,
+      ),
+      showNextButton: true,
+      showDoneButton: true,
+      onDone: () {
+        // interAds();
+        Timer(const Duration(milliseconds: 700), () {
+          Get.offNamed('/GenderSelect');
+        });
+      },
+      pages: [
+        PageViewModel(
+          decoration: pageDecoration(),
+          image: image("assets/image/intro.gif"),
+          title: "Find",
+          body: "Find interesting friends nearby",
         ),
-        done: Text(
-          "START",
-          style: TextStyle(color: Colors.white, fontSize: 13.sp),
+        PageViewModel(
+          decoration: pageDecoration(),
+          image: image("assets/image/intro1.gif"),
+          title: "Chat",
+          body: "Share interesting things \n   With friends",
         ),
-        next: Icon(
-          Icons.arrow_forward,
-          size: 21.sp,
-          color: Colors.white,
+        PageViewModel(
+          decoration: pageDecoration(),
+          image: image("assets/image/intro2.gif"),
+          title: "Video",
+          body: "  Post your Popular videos.",
         ),
-        showNextButton: true,
-        showDoneButton: true,
-        onDone: () {
-          // interAds();
-          Timer(const Duration(milliseconds: 700), () {
-            Get.offNamed('/GenderSelect');
-          });
-        },
-        bodyPadding: const EdgeInsets.only(top: 10),
-        pages: [
-          PageViewModel(
-            decoration: pageDecoration(),
-            image: image("assets/image/intro.gif"),
-            title: "Find",
-            body: "Find interesting friends nearby",
-          ),
-          PageViewModel(
-            decoration: pageDecoration(),
-            image: image("assets/image/intro1.gif"),
-            title: "Chat",
-            body: "Share interesting things \n   With friends",
-          ),
-          PageViewModel(
-            decoration: pageDecoration(),
-            image: image("assets/image/intro2.gif"),
-            title: "Video",
-            body: "  Post your Popular videos.",
-          ),
-          PageViewModel(
-            decoration: pageDecoration(),
-            image: image("assets/image/intro3.gif"),
-            title: "Meet",
-            body: "Meet your friends and New Friends.",
-          ),
-        ],
-      )),
-    );
+        PageViewModel(
+          decoration: pageDecoration(),
+          image: image("assets/image/intro3.gif"),
+          title: "Meet",
+          body: "Meet your friends and New Friends.",
+        ),
+      ],
+    ));
   }
 
   Widget image(pStrUrl) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(13),
-      child: Image.asset(pStrUrl),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(13),
+        child: Image.asset(pStrUrl),
+      ),
     );
   }
 
@@ -88,19 +88,22 @@ class _IntroScreenState extends State<IntroScreen> {
       titleTextStyle:
           GoogleFonts.courgette(fontSize: 20.sp, color: Colors.white),
       bodyTextStyle: GoogleFonts.courgette(
-          fontSize: 15.sp,
-          //fontWeight: FontWeight.w500,
-          color: Colors.white),
-      boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFFFF576F).withOpacity(0.7),
-              const Color(0xFFFF576F).withOpacity(0.9),
-              const Color(0xFFFF576F).withOpacity(0.7),
-            ]),
+        fontSize: 15.sp,
+        //fontWeight: FontWeight.w500,
+        color: Colors.white,
       ),
+      // boxDecoration: BoxDecoration(
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topLeft,
+      //     end: Alignment.bottomRight,
+      //     colors: [
+      //       const Color(0xFFFF576F).withOpacity(0.7),
+      //       const Color(0xFFFF576F).withOpacity(0.7),
+      //       const Color(0xFFF5531A).withOpacity(0.6),
+      //
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

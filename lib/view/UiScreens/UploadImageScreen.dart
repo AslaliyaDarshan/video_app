@@ -20,102 +20,100 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: GlobalWidget.backgroundColor(
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(left: 15,top: 15,),
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new,color: Colors.white,size:35),
-                    ),
-                  ),
-                  Container(
-                    height: 18.h,
-                    color: Colors.deepOrange,
-                  ),
-                  GlobalWidget.poppinsText(
-                      "Upload Your Image", Colors.white, 20.sp,
-                      pFontWeight: FontWeight.w700),
-                  height(12.h),
-                  InkWell(
-                    onTap: () {
-                      pickImage();
+    return Scaffold(
+      body: GlobalWidget.backgroundColor(
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    padding: const EdgeInsets.only(left: 15,top: 15,),
+                    onPressed: () {
+                      Get.back();
                     },
-                    child: Container(
-                      height: 20.h,
-                      width: 20.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white30,
-                      ),
-                      child: file.path.isEmpty
-                          ? Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 5),
-                              ),
-                              child: const Icon(
-                                Icons.photo_camera_outlined,
-                                color: Colors.white,
-                                size: 70,
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage: FileImage(file),
+                    icon: const Icon(Icons.arrow_back_ios_new,color: Colors.white,size:35),
+                  ),
+                ),
+                Container(
+                  height: 18.h,
+                  color: Colors.deepOrange,
+                ),
+                GlobalWidget.poppinsText(
+                    "Upload Your Image", Colors.white, 20.sp,
+                    pFontWeight: FontWeight.w700),
+                height(12.h),
+                InkWell(
+                  onTap: () {
+                    pickImage();
+                  },
+                  child: Container(
+                    height: 20.h,
+                    width: 20.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white30,
+                    ),
+                    child: file.path.isEmpty
+                        ? Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border:
+                                  Border.all(color: Colors.white, width: 5),
                             ),
-                    ),
+                            child: const Icon(
+                              Icons.photo_camera_outlined,
+                              color: Colors.white,
+                              size: 70,
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundImage: FileImage(file),
+                          ),
                   ),
-                  height(17.h),
-                  GlobalWidget.confirmButton(
-                    () {
-                      file.path.isEmpty
-                          ? Get.defaultDialog(
-                              title: "Alert",
-                              titleStyle: TextStyle(
-                                  color:
-                                      const Color(0xFFF6405A).withOpacity(0.7)),
-                              content: GlobalWidget.poppinsText(
-                                  "Please Upload Image",
-                                  const Color(0xFFF6405A).withOpacity(0.7),
-                                  12.sp),
-                              actions: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [button("Cancel"), button("Ok")],
-                                  ),
+                ),
+                height(17.h),
+                GlobalWidget.confirmButton(
+                  () {
+                    file.path.isEmpty
+                        ? Get.defaultDialog(
+                            title: "Alert",
+                            titleStyle: TextStyle(
+                                color:
+                                    const Color(0xFFF6405A).withOpacity(0.7)),
+                            content: GlobalWidget.poppinsText(
+                                "Please Upload Image",
+                                const Color(0xFFF6405A).withOpacity(0.7),
+                                12.sp),
+                            actions: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [button("Cancel"), button("Ok")],
                                 ),
-                              ],
-                            )
-                          : Get.toNamed("/SelectYourGoal");
-                    },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.offNamed("/SelectYourGoal");
-                    },
-                    child: GlobalWidget.poppinsText("Skip", Colors.white, 16.sp,
-                        pFontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-            ],
-          ),
+                              ),
+                            ],
+                          )
+                        : Get.toNamed("/SelectYourGoal");
+                  },
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.offNamed("/SelectYourGoal");
+                  },
+                  child: GlobalWidget.poppinsText("Skip", Colors.white, 16.sp,
+                      pFontWeight: FontWeight.w500),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

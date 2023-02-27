@@ -17,64 +17,62 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: GlobalWidget.backgroundColor(
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    height: 20.h,
-                    color: Colors.white60,
-                  ),
-                  GlobalWidget.poppinsText("Select Birthday Date", Colors.white, 19.sp,pFontWeight: FontWeight.w500),
+    return Scaffold(
+      body: GlobalWidget.backgroundColor(
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Column(
+              children: [
+                Container(
+                  height: 20.h,
+                  color: Colors.white60,
+                ),
+                GlobalWidget.poppinsText("Select Birthday Date", Colors.white, 19.sp,pFontWeight: FontWeight.w500),
 
-                  height(4.h),
-                  InkWell(
-                    onTap: () {
-                      timeDialog();
-                    },
-                    child: Container(
-                      height: 7.h,
-                      width: 60.w,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white70,
-                            Colors.white,
-                            // Colors.white,
-                            Colors.white70,
-                          ],
-                        ),
+                height(4.h),
+                InkWell(
+                  onTap: () {
+                    timeDialog();
+                  },
+                  child: Container(
+                    height: 7.h,
+                    width: 60.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.white70,
+                          Colors.white,
+                          // Colors.white,
+                          Colors.white70,
+                        ],
                       ),
-                      child: GlobalWidget.poppinsText(
-                          "${controller.date.day}/${controller.date.month}/${controller.date.year}",
-                          const Color(0xFFF8256F),
-                          15.sp,
-                          pFontWeight: FontWeight.w500),
                     ),
+                    child: GlobalWidget.poppinsText(
+                        "${controller.date.day}/${controller.date.month}/${controller.date.year}",
+                        const Color(0xFFF8256F),
+                        15.sp,
+                        pFontWeight: FontWeight.w500),
                   ),
-                  height(22.h),
-                  GlobalWidget.confirmButton(
-                    () {
-                      Get.offNamed("/NickName");
-                    },
-                  ),
-                  GlobalWidget.poppinsText("Not allow to use this app under 18 year", Colors.white, 10.sp,pFontWeight: FontWeight.w300),
-                ],
-              ),
-              Container(
-                height: 16.h,
-                color: Colors.white60,
-              ),
-            ],
-          ),
+                ),
+                height(22.h),
+                GlobalWidget.confirmButton(
+                  () {
+                    Get.offNamed("/NickName");
+                  },
+                ),
+                GlobalWidget.poppinsText("Not allow to use this app under 18 year", Colors.white, 10.sp,pFontWeight: FontWeight.w300),
+              ],
+            ),
+            Container(
+              height: 16.h,
+              color: Colors.white60,
+            ),
+          ],
         ),
       ),
     );

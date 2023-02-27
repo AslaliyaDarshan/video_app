@@ -25,25 +25,23 @@ class _SpleshScreenState extends State<SpleshScreen> {
   }
   Widget build(BuildContext context) {
 
-    return SafeArea(
-      child: Scaffold(
-        body: GlobalWidget.backgroundColor(
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Lottie.asset("assets/lottie/splash.json",
-                    height: 22.h, width: 22.h, fit: BoxFit.fill),
-              ),
-              Text(
-                "Video Calling App",
-                style: GoogleFonts.lobster(
-                    fontSize: 29.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
-            ],
-          ),
+    return Scaffold(
+      body: GlobalWidget.backgroundColor(
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Lottie.asset("assets/lottie/splash.json",
+                  height: 22.h, width: 22.h, fit: BoxFit.fill),
+            ),
+            Text(
+              "Video Calling App",
+              style: GoogleFonts.lobster(
+                  fontSize: 29.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+          ],
         ),
       ),
     );

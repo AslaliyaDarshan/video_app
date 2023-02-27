@@ -18,29 +18,27 @@ class TermsScreen extends StatefulWidget {
 class _TermsScreenState extends State<TermsScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: GlobalWidget.backgroundColor(
-          Column(
-            children: [
-              Expanded(
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white.withOpacity(0.8),
-                  ),
+    return Scaffold(
+      body: GlobalWidget.backgroundColor(
+        Column(
+          children: [
+            Expanded(
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                width: double.infinity,
+                height: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.white.withOpacity(0.8),
                 ),
               ),
-              GlobalWidget.confirmButton(() {
-                Get.offNamed("/IntroScreen");
-              }),
-            ],
-          ),
+            ),
+            GlobalWidget.confirmButton(() {
+              Get.offNamed("/IntroScreen");
+            }),
+          ],
         ),
       ),
     );
