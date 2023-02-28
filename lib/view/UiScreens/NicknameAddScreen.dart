@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/Controller/HomeController.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class NickNameAddScreen extends StatefulWidget {
@@ -41,13 +42,13 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                     style: GoogleFonts.poppins(color: Colors.white),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.white70, width: 2.5),
+                        borderSide:
+                            const BorderSide(color: Colors.white70, width: 2.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.white70, width: 2.5),
+                        borderSide:
+                            const BorderSide(color: Colors.white70, width: 2.5),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       hintText: 'Enter NickName',
@@ -60,30 +61,34 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                       ),
                     ),
                     onChanged: (value) {
-                      setState(() {
-
-                      value.length > 3?mBlnValidation == false
-                          :mBlnValidation == true;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          HomeController.homeController.mStrName = value;
+                          value.length > 3
+                              ? mBlnValidation == false
+                              : mBlnValidation == true;
+                        });
+                      }
+                      ;
                     },
                   ),
                 ),
                 mBlnValidation == false
                     ? const Text("")
                     : GlobalWidget.poppinsText(
-                        "Please enter attlist 3 latter's",
-                        Colors.white,
-                        10.sp),
+                        "Please enter attlist 3 latter's", Colors.white, 10.sp),
                 height(22.h),
                 GlobalWidget.confirmButton(
-                  () { if (mTeController.text.length < 3) {
-                    setState(() {
-                      mBlnValidation = true;
-                    });
-                  } else {
-                    Get.offNamed("/UploadImage");
-                  }
-
+                  () {
+                    if (mTeController.text.length < 3) {
+                      if (mounted) {
+                        setState(() {
+                          mBlnValidation = true;
+                        });
+                      }
+                    } else {
+                      Get.offNamed("/UploadImage");
+                    }
                   },
                 ),
                 InkWell(

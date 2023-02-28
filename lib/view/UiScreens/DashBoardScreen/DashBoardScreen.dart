@@ -1,12 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
-import 'package:video_calling_app/view/UiScreens/Home/HomeScreen.dart';
-import 'package:video_calling_app/view/UiScreens/Live/LiveScreen.dart';
-import 'package:video_calling_app/view/UiScreens/Profile/ProfileScreen.dart';
-import 'package:video_calling_app/view/UiScreens/Region/CountryScreen.dart';
-import 'package:video_calling_app/view/UiScreens/Region/TabBarScreen/TabBarScreen.dart';
+import 'Home/HomeScreen.dart';
+import 'Live/LiveScreen.dart';
+import 'Profile/ProfileScreen.dart';
+import 'Region/TabBarScreen/TabBarScreen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -31,10 +32,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.pink.shade100,
+              color: Colors.pink.shade200,
               blurRadius: 20,
               spreadRadius: 2,
-              offset: const Offset(0, -10),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -53,9 +54,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           color: Colors.pink.shade400,
           selectedIndex: controller.index.value,
           onTabChange: (value) {
-            setState(() {
-              controller.changeIndex(value);
-            });
+            if (mounted) {
+              setState(
+                () {
+                  controller.changeIndex(value);
+                  HomeController.homeController.pBlnIsLoading = true;
+                  Timer(
+                    const Duration(seconds: 7),
+                    () {
+                      HomeController.homeController.pBlnIsLoading = false;
+                    },
+                  );
+                },
+              );
+            }
           },
           tabs: [
             GButton(
