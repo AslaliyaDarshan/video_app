@@ -1,30 +1,36 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/view/ApiHelper/ApiHelperClass.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
-class SpleshScreen extends StatefulWidget {
-  const SpleshScreen({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<SpleshScreen> createState() => _SpleshScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SpleshScreenState extends State<SpleshScreen> {
+class _SplashScreenState extends State<SplashScreen> {
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
+
   @override
   void initState() {
-    Timer(
-      const Duration(seconds: 5),
-          () => Get.offNamed( "/TermsScreen"),
-    );
+    getConnectivity();
     super.initState();
   }
-  Widget build(BuildContext context) {
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: GlobalWidget.backgroundColor(
         Column(
@@ -45,5 +51,73 @@ class _SpleshScreenState extends State<SpleshScreen> {
         ),
       ),
     );
+  }
+
+  getConnectivity() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+      print("internet---------->$isDeviceConnected");
+      if (isDeviceConnected == false && isAlertSet == false) {
+        showDialogBox();
+        if (mounted) {
+          setState(() {
+            isAlertSet = true;
+          });
+        }
+      } else {
+        ApiHelper().AdData();
+        isLogin();
+      }
+    });
+  }
+
+  void showDialogBox() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("No Connection"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () async {
+                  Navigator.pop(context, 'Cancel');
+                  if (mounted) {
+                    setState(() {
+                      isAlertSet = false;
+                    });
+                  }
+                  isDeviceConnected =
+                      await InternetConnectionChecker().hasConnection;
+                  if (!isDeviceConnected) {
+                    showDialogBox();
+                    if (mounted) {
+                      setState(() {
+                        isAlertSet = true;
+                      });
+                    }
+                  } else {
+                    ApiHelper().AdData();
+                    isLogin();
+                  }
+                },
+                child: const Text("ok"))
+          ],
+        );
+      },
+    );
+  }
+
+  void isLogin() async {
+    if (isDeviceConnected == false) {
+      showDialogBox();
+    } else {
+      Timer(
+        const Duration(seconds: 7),
+        () => Get.offAllNamed("/TermsScreen"),
+      );
+      // }
+    }
   }
 }

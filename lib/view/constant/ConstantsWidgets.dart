@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,7 +29,7 @@ class GlobalWidget {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 18),
-        height: 7.h,
+        height: 6.5.h,
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -96,16 +97,21 @@ class GlobalWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(pStrUrl,height:25.h,
+              child: Image.asset(
+                pStrUrl,
+                height: 25.h,
                 width: 45.w,
-                fit: BoxFit.fill,),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-          poppinsText(pStrText,Colors.white, 15.sp)
+          poppinsText(pStrText, Colors.white, 15.sp)
         ],
       ),
     );
-  }static selectGender(
+  }
+
+  static selectGender(
       void Function() onTap, String pStrUrl, String pStrText, Border pBorder) {
     return InkWell(
       onTap: onTap,
@@ -152,6 +158,40 @@ class GlobalWidget {
         color: pClrColor,
         fontSize: pDblFontSize,
         fontWeight: pFontWeight,
+      ),
+    );
+  }
+
+  static warningDialog(String pStrWarningText) {
+    return Get.defaultDialog(
+      title: "Alert",
+      titleStyle: TextStyle(color: const Color(0xFFF6405A).withOpacity(0.7)),
+      content: GlobalWidget.poppinsText(
+          pStrWarningText, const Color(0xFFF6405A).withOpacity(0.7), 12.sp),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [button("Cancel"), button("Ok")],
+          ),
+        ),
+      ],
+    );
+  }
+
+  static button(String pStrText) {
+    return InkWell(
+      onTap: () => Get.back(),
+      child: Container(
+        height: 5.h,
+        width: 20.w,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF6405A).withOpacity(0.75),
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: GlobalWidget.poppinsText(pStrText, Colors.white, 12.sp),
       ),
     );
   }

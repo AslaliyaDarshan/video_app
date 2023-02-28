@@ -28,8 +28,9 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                   height: 20.h,
                   color: Colors.white60,
                 ),
-                GlobalWidget.poppinsText("Select Birthday Date", Colors.white, 19.sp,pFontWeight: FontWeight.w500),
-
+                GlobalWidget.poppinsText(
+                    "Select Birthday Date", Colors.white, 19.sp,
+                    pFontWeight: FontWeight.w500),
                 height(4.h),
                 InkWell(
                   onTap: () {
@@ -65,7 +66,11 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                     Get.offNamed("/NickName");
                   },
                 ),
-                GlobalWidget.poppinsText("Not allow to use this app under 18 year", Colors.white, 10.sp,pFontWeight: FontWeight.w300),
+                GlobalWidget.poppinsText(
+                    "Not allow to use this app under 18 year",
+                    Colors.white,
+                    10.sp,
+                    pFontWeight: FontWeight.w300),
               ],
             ),
             Container(
@@ -101,9 +106,14 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
       lastDate: DateTime(3000),
     );
     try {
-      setState(() {
-        controller.getData(data);
-      });
+      if (mounted) {
+        setState(
+          () {
+            controller.getData(data);
+          },
+        );
+      }
+      ;
     } catch (e) {}
   }
 }

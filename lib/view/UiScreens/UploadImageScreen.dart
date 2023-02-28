@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/Controller/HomeController.dart';
 
 import '../constant/ConstantsWidgets.dart';
 
@@ -30,11 +31,15 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    padding: const EdgeInsets.only(left: 15,top: 15,),
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                      top: 15,
+                    ),
                     onPressed: () {
                       Get.back();
                     },
-                    icon: const Icon(Icons.arrow_back_ios_new,color: Colors.white,size:35),
+                    icon: const Icon(Icons.arrow_back_ios_new,
+                        color: Colors.white, size: 35),
                   ),
                 ),
                 Container(
@@ -62,8 +67,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                             width: 150,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.white, width: 5),
+                              border: Border.all(color: Colors.white, width: 5),
                             ),
                             child: const Icon(
                               Icons.photo_camera_outlined,
@@ -79,28 +83,9 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 height(17.h),
                 GlobalWidget.confirmButton(
                   () {
+                    HomeController.homeController.mStrFileName = file.path;
                     file.path.isEmpty
-                        ? Get.defaultDialog(
-                            title: "Alert",
-                            titleStyle: TextStyle(
-                                color:
-                                    const Color(0xFFF6405A).withOpacity(0.7)),
-                            content: GlobalWidget.poppinsText(
-                                "Please Upload Image",
-                                const Color(0xFFF6405A).withOpacity(0.7),
-                                12.sp),
-                            actions: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [button("Cancel"), button("Ok")],
-                                ),
-                              ),
-                            ],
-                          )
+                        ? GlobalWidget.warningDialog("Please Upload Image")
                         : Get.toNamed("/SelectYourGoal");
                   },
                 ),
@@ -138,21 +123,26 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               text(() async {
                 ImagePicker img = ImagePicker();
                 XFile? f2 = await img.pickImage(source: ImageSource.camera);
-                setState(() {
+        if (mounted) {setState(() {
                   try {
                     file = File(f2!.path);
                   } catch (e) {}
-                });
+                });};
                 Get.back();
               }, "Take Photo"),
               text(() async {
                 ImagePicker img = ImagePicker();
                 XFile? f2 = await img.pickImage(source: ImageSource.gallery);
-                setState(() {
-                  try {
-                    file = File(f2!.path);
-                  } catch (e) {}
-                });
+                if (mounted) {
+                  setState(
+                    () {
+                      try {
+                        file = File(f2!.path);
+                      } catch (e) {}
+                    },
+                  );
+                }
+                ;
                 Get.back();
               }, "Choose From Library"),
               text(() {
