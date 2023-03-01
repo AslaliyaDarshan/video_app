@@ -1,9 +1,7 @@
-/// status : 1
-/// description : "Application Keys List"
-/// data : [{"a_k_id":33,"a_id":6,"key_name":"App Open","key_id":"ca-app-pub-3940256099942544/3419835294"},{"a_k_id":34,"a_id":6,"key_name":"Banner","key_id":"ca-app-pub-3940256099942544/6300978111"},{"a_k_id":35,"a_id":6,"key_name":"Interstitial","key_id":"ca-app-pub-3940256099942544/1033173712"},{"a_k_id":36,"a_id":6,"key_name":"Interstitial Video","key_id":"ca-app-pub-3940256099942544/8691691433"},{"a_k_id":37,"a_id":6,"key_name":"Rewarded","key_id":"ca-app-pub-3940256099942544/5224354917"},{"a_k_id":38,"a_id":6,"key_name":"Native Advanced","key_id":"ca-app-pub-3940256099942544/2247696110"}]
+import 'dart:convert';
 
-class ApiModel {
-  ApiModel({
+class Admodel {
+  Admodel({
     num? status,
     String? description,
     List<Data>? data,
@@ -13,7 +11,7 @@ class ApiModel {
     _data = data;
   }
 
-  ApiModel.fromJson(dynamic json) {
+  Admodel.fromJson(dynamic json) {
     _status = json['status'];
     _description = json['description'];
     if (json['data'] != null) {
@@ -26,12 +24,12 @@ class ApiModel {
   num? _status;
   String? _description;
   List<Data>? _data;
-  ApiModel copyWith({
+  Admodel copyWith({
     num? status,
     String? description,
     List<Data>? data,
   }) =>
-      ApiModel(
+      Admodel(
         status: status ?? _status,
         description: description ?? _description,
         data: data ?? _data,
@@ -50,11 +48,6 @@ class ApiModel {
     return map;
   }
 }
-
-/// a_k_id : 33
-/// a_id : 6
-/// key_name : "App Open"
-/// key_id : "ca-app-pub-3940256099942544/3419835294"
 
 class Data {
   Data({
@@ -104,4 +97,64 @@ class Data {
     map['key_id'] = _keyId;
     return map;
   }
+}
+
+// To parse this JSON data, do
+//
+//     final adModel = adModelFromJson(jsonString);
+
+AdModel adModelFromJson(String str) => AdModel.fromJson(json.decode(str));
+
+String adModelToJson(AdModel data) => json.encode(data.toJson());
+
+class AdModel {
+  AdModel({
+    required this.status,
+    required this.description,
+    required this.data,
+  });
+
+  int status;
+  String description;
+  List<Datum> data;
+
+  factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
+        status: json["status"],
+        description: json["description"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "description": description,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
+}
+
+class Datum {
+  Datum({
+    required this.aKId,
+    required this.aId,
+    required this.keyName,
+    required this.keyId,
+  });
+
+  int aKId;
+  int aId;
+  String keyName;
+  String keyId;
+
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        aKId: json["a_k_id"],
+        aId: json["a_id"],
+        keyName: json["key_name"],
+        keyId: json["key_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "a_k_id": aKId,
+        "a_id": aId,
+        "key_name": keyName,
+        "key_id": keyId,
+      };
 }

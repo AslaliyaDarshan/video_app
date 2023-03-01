@@ -15,9 +15,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   HomeController controller = Get.put(HomeController());
-
+@override
+  void initState() {
+  controller.mStrFileName;
+  controller.mStrName;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: GlobalWidget.backgroundColor(
         Stack(

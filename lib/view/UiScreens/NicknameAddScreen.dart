@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class NickNameAddScreen extends StatefulWidget {
@@ -15,6 +18,16 @@ class NickNameAddScreen extends StatefulWidget {
 class _NickNameAddScreenState extends State<NickNameAddScreen> {
   TextEditingController mTeController = TextEditingController();
   bool mBlnValidation = false;
+  NativeAd? nativeAd;
+  bool isAdLoaded = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    native();
+    bannerAds();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +39,21 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
           children: [
             Column(
               children: [
-                Container(
-                  height: 20.h,
-                  color: Colors.white60,
-                ),
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
                 GlobalWidget.poppinsText("My NickName", Colors.white, 19.sp,
                     pFontWeight: FontWeight.w500),
                 height(5.h),
@@ -61,15 +85,11 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                       ),
                     ),
                     onChanged: (value) {
-                      if (mounted) {
-                        setState(() {
-                          HomeController.homeController.mStrName = value;
-                          value.length > 3
-                              ? mBlnValidation == false
-                              : mBlnValidation == true;
-                        });
-                      }
-                      ;
+                      HomeController.homeController.mStrName = value;
+                      value.length > 3
+                          ? mBlnValidation == false
+                          : mBlnValidation == true;
+                      setState(() {});
                     },
                   ),
                 ),
@@ -81,32 +101,64 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                 GlobalWidget.confirmButton(
                   () {
                     if (mTeController.text.length < 3) {
-                      if (mounted) {
-                        setState(() {
-                          mBlnValidation = true;
-                        });
-                      }
+                      mBlnValidation = true;
+                      setState(() {});
                     } else {
-                      Get.offNamed("/UploadImage");
+                      setState(
+                        () {
+                          interAds();
+                          isLoading = true;
+                          Future.delayed(
+                            const Duration(seconds: 3),
+                            () {
+                              isLoading = false;
+                              Get.offAllNamed("/UploadImage");
+                            },
+                          );
+                        },
+                      );
                     }
                   },
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.offNamed("/UploadImage");
-                  },
-                  child: GlobalWidget.poppinsText("Skip", Colors.white, 16.sp,
-                      pFontWeight: FontWeight.w500),
-                ),
               ],
             ),
+            isLoading
+                ? Center(
+                    child: Lottie.asset("assets/lottie/loading.json",
+                        width: 30.h, height: 30.h),
+                  )
+                : Container(),
             Container(
-              height: 16.h,
-              color: Colors.white60,
+              height: 9.h,
+              alignment: Alignment.bottomCenter,
+              child: AdWidget(ad: bannerAd!),
             ),
           ],
         ),
       ),
     );
+  }
+
+  native() {
+    try {
+      nativeAd = NativeAd(
+        adUnitId: "${GlobalWidget.nativeAd}",
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (_) {
+            setState(
+              () {
+                isAdLoaded = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (ad, error) {
+            native();
+          },
+        ),
+      );
+      nativeAd?.load();
+    } on Exception {}
   }
 }

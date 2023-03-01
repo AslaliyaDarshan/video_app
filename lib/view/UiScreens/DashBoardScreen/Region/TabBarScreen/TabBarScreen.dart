@@ -13,6 +13,13 @@ class TabBarScreen extends StatefulWidget {
 
 class _TabBarScreenState extends State<TabBarScreen> {
   @override
+  void initState() {
+    CountryScreen();
+    LanguageScreen();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
@@ -26,13 +33,13 @@ class _TabBarScreenState extends State<TabBarScreen> {
                   height(2.h),
                   TabBar(
                     indicatorWeight: 3,
-                    indicatorPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: -8),
+                    indicatorPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: -8),
                     indicatorColor: Colors.white,
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.white60,
-                    labelStyle:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    labelStyle: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16.0),
                     tabs: [
                       GlobalWidget.poppinsText("Country", Colors.white, 13.sp),
                       GlobalWidget.poppinsText("Language", Colors.white, 13.sp),

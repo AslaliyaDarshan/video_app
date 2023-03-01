@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/model/ApiModel.dart';
 
 class GlobalWidget {
+  static AdModel? newsJson;
+  static dynamic openAd = newsJson!.data[0].keyId;
+  static dynamic bannerAd = newsJson!.data[1].keyId;
+  static dynamic interstitialAd = newsJson!.data[2].keyId;
+  static dynamic interstitialVideoAd = newsJson!.data[3].keyId;
+  static dynamic rewardedAd = newsJson!.data[4].keyId;
+  static dynamic nativeAd = newsJson!.data[5].keyId;
+
   static backgroundColor(Widget child) {
     return Container(
       width: double.infinity,
@@ -34,7 +43,7 @@ class GlobalWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white,
           boxShadow: const [
             BoxShadow(
               color: Colors.white70,
@@ -105,7 +114,10 @@ class GlobalWidget {
               ),
             ),
           ),
-          poppinsText(pStrText, Colors.white, 15.sp)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: poppinsText(pStrText, Colors.white, 13.sp),
+          ),
         ],
       ),
     );

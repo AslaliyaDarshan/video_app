@@ -26,6 +26,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   ];
 
   @override
+  void initState() {
+    HomeScreen();
+    LiveScreen();
+    TabBarScreen();
+    ProfileScreen();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
@@ -44,30 +53,26 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           backgroundColor: Colors.pink.shade50,
           rippleColor: Colors.black,
           hoverColor: Colors.pink.shade400,
-          gap: 8,
-          tabActiveBorder: Border.all(width: 3, color: Colors.pink.shade400),
+          gap: 7,
+          tabBorderRadius: 25,
+          tabActiveBorder: Border.all(width: 2, color: Colors.pink.shade400),
           activeColor: Colors.white,
           iconSize: 30,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           duration: const Duration(milliseconds: 400),
           tabBackgroundColor: Colors.white,
           color: Colors.pink.shade400,
           selectedIndex: controller.index.value,
           onTabChange: (value) {
-            if (mounted) {
-              setState(
-                () {
-                  controller.changeIndex(value);
-                  HomeController.homeController.pBlnIsLoading = true;
-                  Timer(
-                    const Duration(seconds: 7),
-                    () {
-                      HomeController.homeController.pBlnIsLoading = false;
-                    },
-                  );
-                },
-              );
-            }
+            controller.changeIndex(value);
+            HomeController.homeController.pBlnIsLoading.value = true;
+            Timer(
+              const Duration(seconds: 7),
+              () {
+                HomeController.homeController.pBlnIsLoading.value = false;
+              },
+            );
+            setState(() {});
           },
           tabs: [
             GButton(

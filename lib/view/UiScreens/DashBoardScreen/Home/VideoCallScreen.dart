@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 import 'package:video_player/video_player.dart';
 
@@ -25,15 +26,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     videoController = VideoPlayerController.asset("${controller.model?.video}")
       ..initialize().then(
         (value) {
-          if (mounted) {
-            setState(
-              () {
-                videoController.setLooping(true);
-                videoController.play();
-              },
-            );
-          }
-          ;
+          videoController.setLooping(true);
+          videoController.play();
+          setState(() {});
         },
       );
   }
@@ -121,9 +116,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   }
 
   Future<bool> dialog() async {
-    controller.playPause();
-    videoController.pause();
-    Get.back();
+    setState(
+      () {
+        controller.playPause();
+        videoController.pause();
+        Get.back();
+      },
+    );
     return false;
   }
 }
