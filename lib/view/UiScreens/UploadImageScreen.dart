@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 
 import '../constant/ConstantsWidgets.dart';
 
@@ -18,6 +21,17 @@ class UploadImageScreen extends StatefulWidget {
 
 class _UploadImageScreenState extends State<UploadImageScreen> {
   File file = File("");
+  bool mBlnValidation = false;
+  NativeAd? nativeAd;
+  bool isAdLoaded = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    native();
+    bannerAds();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +42,36 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
           children: [
             Column(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(
-                      left: 15,
-                      top: 15,
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new,
-                        color: Colors.white, size: 35),
-                  ),
-                ),
-                Container(
-                  height: 18.h,
-                  color: Colors.deepOrange,
-                ),
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: IconButton(
+                //     padding: const EdgeInsets.only(
+                //       left: 15,
+                //       top: 15,
+                //     ),
+                //     onPressed: () {
+                //       Get.back();
+                //     },
+                //     icon: const Icon(Icons.arrow_back_ios_new,
+                //         color: Colors.white, size: 35),
+                //   ),
+                // ),
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
+                height(2.h),
                 GlobalWidget.poppinsText(
                     "Upload Your Image", Colors.white, 20.sp,
                     pFontWeight: FontWeight.w700),
@@ -84,20 +110,33 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 GlobalWidget.confirmButton(
                   () {
                     HomeController.homeController.mStrFileName = file.path;
-                    file.path.isEmpty
-                        ? GlobalWidget.warningDialog("Please Upload Image")
-                        : Get.toNamed("/SelectYourGoal");
+                    if (file.path.isEmpty) {
+                      GlobalWidget.warningDialog("Please Upload Image");
+                    } else {
+                      setState(
+                        () {
+                          interVideoAds();
+                          isLoading = true;
+                          Future.delayed(
+                            const Duration(seconds: 5),
+                            () {
+                              isLoading = false;
+                              Get.offNamed("/SelectYourGoal");
+                            },
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.offNamed("/SelectYourGoal");
-                  },
-                  child: GlobalWidget.poppinsText("Skip", Colors.white, 16.sp,
-                      pFontWeight: FontWeight.w500),
-                )
               ],
             ),
+            isLoading
+                ? Center(
+                    child: Lottie.asset("assets/lottie/loading.json",
+                        width: 30.h, height: 30.h),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -123,25 +162,24 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               text(() async {
                 ImagePicker img = ImagePicker();
                 XFile? f2 = await img.pickImage(source: ImageSource.camera);
-        if (mounted) {setState(() {
-                  try {
-                    file = File(f2!.path);
-                  } catch (e) {}
-                });};
+                if (mounted) {
+                  setState(() {
+                    try {
+                      file = File(f2!.path);
+                    } catch (e) {}
+                  });
+                }
+                ;
                 Get.back();
               }, "Take Photo"),
               text(() async {
                 ImagePicker img = ImagePicker();
                 XFile? f2 = await img.pickImage(source: ImageSource.gallery);
-                if (mounted) {
-                  setState(
-                    () {
-                      try {
-                        file = File(f2!.path);
-                      } catch (e) {}
-                    },
-                  );
-                }
+
+                try {
+                  file = File(f2!.path);
+                } catch (e) {}
+                setState(() {});
                 ;
                 Get.back();
               }, "Choose From Library"),
@@ -178,5 +216,28 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
           pStrText, const Color(0xFFF6405A).withOpacity(0.7), 12.sp,
           pFontWeight: FontWeight.w500),
     );
+  }
+
+  native() {
+    try {
+      nativeAd = NativeAd(
+        adUnitId: "${GlobalWidget.nativeAd}",
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (_) {
+            setState(
+              () {
+                isAdLoaded = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (ad, error) {
+            native();
+          },
+        ),
+      );
+      nativeAd?.load();
+    } on Exception {}
   }
 }

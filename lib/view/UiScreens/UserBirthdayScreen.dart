@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class UserBirthdayScreen extends StatefulWidget {
@@ -14,6 +17,16 @@ class UserBirthdayScreen extends StatefulWidget {
 
 class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
   HomeController controller = Get.put(HomeController());
+  NativeAd? nativeAd;
+  bool isAdLoaded = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    native();
+    bannerAds();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +37,21 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
           children: [
             Column(
               children: [
-                Container(
-                  height: 20.h,
-                  color: Colors.white60,
-                ),
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
                 GlobalWidget.poppinsText(
                     "Select Birthday Date", Colors.white, 19.sp,
                     pFontWeight: FontWeight.w500),
@@ -63,7 +87,19 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                 height(22.h),
                 GlobalWidget.confirmButton(
                   () {
-                    Get.offNamed("/NickName");
+                    setState(
+                      () {
+                        interAds();
+                        isLoading = true;
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () {
+                            isLoading = false;
+                            Get.offNamed("/NickName");
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
                 GlobalWidget.poppinsText(
@@ -73,9 +109,16 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                     pFontWeight: FontWeight.w300),
               ],
             ),
+            isLoading
+                ? Center(
+                    child: Lottie.asset("assets/lottie/loading.json",
+                        width: 30.h, height: 30.h),
+                  )
+                : Container(),
             Container(
-              height: 16.h,
-              color: Colors.white60,
+              height: 9.h,
+              alignment: Alignment.bottomCenter,
+              child: AdWidget(ad: bannerAd!),
             ),
           ],
         ),
@@ -106,14 +149,31 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
       lastDate: DateTime(3000),
     );
     try {
-      if (mounted) {
-        setState(
-          () {
-            controller.getData(data);
-          },
-        );
-      }
-      ;
+      controller.getData(data);
+      setState(() {});
     } catch (e) {}
+  }
+
+  native() {
+    try {
+      nativeAd = NativeAd(
+        adUnitId: "${GlobalWidget.nativeAd}",
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (_) {
+            setState(
+              () {
+                isAdLoaded = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (ad, error) {
+            native();
+          },
+        ),
+      );
+      nativeAd?.load();
+    } on Exception {}
   }
 }

@@ -1,5 +1,6 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_calling_app/model/ApiModel.dart';
+import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 BannerAd? bannerAd;
 InterstitialAd? interstitialAd;
@@ -7,18 +8,10 @@ InterstitialAd? interstitialVideoAd;
 RewardedAd? rewardedAd;
 AppOpenAd? appOpenAd;
 
-ApiModel? newsJson;
-dynamic ao = newsJson!.data![1].keyId;
-dynamic ba = newsJson!.data![2].keyId;
-dynamic ia = newsJson!.data![3].keyId;
-dynamic iva = newsJson!.data![4].keyId;
-dynamic ra = newsJson!.data![5].keyId;
-dynamic na = newsJson!.data![6].keyId;
-
 void bannerAds() {
   bannerAd = BannerAd(
     size: AdSize.banner,
-    adUnitId: "$ba",
+    adUnitId: "${GlobalWidget.bannerAd}",
     listener: const BannerAdListener(),
     request: const AdRequest(),
   );
@@ -27,7 +20,7 @@ void bannerAds() {
 
 void interAds() {
   InterstitialAd.load(
-    adUnitId: "$ia",
+    adUnitId: "${GlobalWidget.interstitialAd}",
     request: const AdRequest(),
     adLoadCallback: InterstitialAdLoadCallback(
       onAdLoaded: (ad) {
@@ -43,7 +36,7 @@ void interAds() {
 
 void interVideoAds() {
   InterstitialAd.load(
-    adUnitId: "$iva",
+    adUnitId: "${GlobalWidget.interstitialVideoAd}",
     request: const AdRequest(),
     adLoadCallback: InterstitialAdLoadCallback(
       onAdLoaded: (ad) {
@@ -59,7 +52,7 @@ void interVideoAds() {
 
 void rewardAds() {
   RewardedAd.load(
-    adUnitId: "$ra",
+    adUnitId: "${GlobalWidget.rewardedAd}",
     request: const AdRequest(),
     rewardedAdLoadCallback: RewardedAdLoadCallback(
       onAdLoaded: (ad) {
@@ -77,7 +70,7 @@ void rewardAds() {
 
 void openAds() {
   AppOpenAd.load(
-      adUnitId: "$ao",
+      adUnitId: "${GlobalWidget.openAd}",
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {

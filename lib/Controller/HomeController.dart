@@ -1,19 +1,30 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:video_calling_app/model/VideoModel.dart';
+import 'package:video_player/video_player.dart';
 
 class HomeController extends GetxController {
   static HomeController homeController = Get.put(HomeController());
+
   RxBool mBlnSelect = true.obs;
   RxBool mBlnSelect1 = false.obs;
   RxBool mBlnSelect2 = false.obs;
   RxBool mBlnSelect3 = false.obs;
+  RxBool mBlnIsPlay = false.obs;
+  RxBool pBlnIsLoading = false.obs;
+  RxBool loading1 = false.obs;
+
   var date = DateTime.now();
   VideoModel? model;
-  RxBool mBlnIsPlay = false.obs;
   RxInt index = 0.obs;
-  String mStrName = "Darshan";
-  late String mStrFileName;
-  bool pBlnIsLoading = false;
+
+  String mStrName = "Hiiiii";
+  late String mStrFileName = "";
+
+  late StreamSubscription subscription;
+  RxBool isDeviceConnected = false.obs;
+  RxBool isAlertSet = false.obs;
 
   changeIndex(int i) {
     index.value = i;
@@ -81,7 +92,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/i2.jpg",
         video: "assets/video/2.mp4"),
     VideoModel(
-        name: "Vairagi",
+        name: "Vaira",
         image: "assets/videoImage/i15.jpg",
         video: "assets/video/15.mp4"),
     VideoModel(
@@ -93,11 +104,11 @@ class HomeController extends GetxController {
         image: "assets/videoImage/i16.jpg",
         video: "assets/video/16.mp4"),
     VideoModel(
-        name: "Krishna",
+        name: "Krisha",
         image: "assets/videoImage/i17.jpg",
         video: "assets/video/17.mp4"),
     VideoModel(
-        name: "Hemangi",
+        name: "Henu",
         image: "assets/videoImage/i18.jpg",
         video: "assets/video/18.mp4"),
     VideoModel(
@@ -113,7 +124,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/i21.jpg",
         video: "assets/video/21.mp4"),
     VideoModel(
-        name: "Urvisha",
+        name: "Urvi",
         image: "assets/videoImage/i22.jpg",
         video: "assets/video/22.mp4"),
     VideoModel(
@@ -133,7 +144,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/i25.jpg",
         video: "assets/video/25.mp4"),
     VideoModel(
-        name: "Drishya",
+        name: "Disha",
         image: "assets/videoImage/i26.jpg",
         video: "assets/video/26.mp4"),
     VideoModel(
@@ -145,7 +156,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/p28.png",
         video: "assets/video/28.mp4"),
     VideoModel(
-        name: "Shrushti",
+        name: "Shruti",
         image: "assets/videoImage/p29.png",
         video: "assets/video/29.mp4"),
     VideoModel(
@@ -157,7 +168,7 @@ class HomeController extends GetxController {
         image: "assets/videoImage/p30.png",
         video: "assets/video/30.mp4"),
     VideoModel(
-        name: "Anushka",
+        name: "Anu",
         image: "assets/videoImage/p31.png",
         video: "assets/video/31.mp4"),
     VideoModel(
@@ -221,11 +232,11 @@ class HomeController extends GetxController {
         image: "assets/videoImage/p46.png",
         video: "assets/video/46.mp4"),
     VideoModel(
-        name: "Aadhini",
+        name: "Aadhi",
         image: "assets/videoImage/p47.png",
         video: "assets/video/47.mp4"),
     VideoModel(
-        name: "Ridhdhi",
+        name: "Ridhi",
         image: "assets/videoImage/p48.png",
         video: "assets/video/48.mp4"),
     VideoModel(
@@ -240,5 +251,9 @@ class HomeController extends GetxController {
         name: "Sarah",
         image: "assets/videoImage/p52.png",
         video: "assets/video/52.mp4"),
+    VideoModel(
+        name: "Krupa",
+        image: "assets/videoImage/i23.jpg",
+        video: "assets/video/23.mp4"),
   ];
 }

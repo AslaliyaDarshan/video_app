@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class SelectYourGoalScreen extends StatefulWidget {
@@ -14,6 +17,15 @@ class SelectYourGoalScreen extends StatefulWidget {
 
 class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
   HomeController controller = Get.put(HomeController());
+  NativeAd? nativeAd;
+  bool isAdLoaded = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    native();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +36,21 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
           children: [
             Column(
               children: [
-                Container(
-                  height: 20.h,
-                  color: Colors.white60,
-                ),
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
                 GlobalWidget.poppinsText(
                     "Select Your Goal", Colors.white, 20.sp,
                     pFontWeight: FontWeight.w500),
@@ -46,7 +69,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                               controller.mBlnSelect3.value = false;
                             },
                             "assets/image/goal.jpg",
-                            "Male",
+                            "Love",
                             Border.all(
                               color: controller.mBlnSelect.value == true
                                   ? Colors.white
@@ -62,7 +85,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                               controller.mBlnSelect3.value = false;
                             },
                             "assets/image/goal1.jpg",
-                            "Female",
+                            "Only Girl",
                             Border.all(
                               color: controller.mBlnSelect1.value == false
                                   ? Colors.transparent
@@ -71,7 +94,8 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                             ),
                           ),
                         ],
-                      ),Row(
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GlobalWidget.selectYourGoal(
@@ -82,7 +106,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                               controller.mBlnSelect3.value = false;
                             },
                             "assets/image/goal2.jpg",
-                            "Male",
+                            "Relationship",
                             Border.all(
                               color: controller.mBlnSelect2.value == true
                                   ? Colors.white
@@ -98,7 +122,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                               controller.mBlnSelect3.value = true;
                             },
                             "assets/image/goal3.jpg",
-                            "Female",
+                            "Love Couple",
                             Border.all(
                               color: controller.mBlnSelect3.value == false
                                   ? Colors.transparent
@@ -113,14 +137,55 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                 ),
                 GlobalWidget.confirmButton(
                   () {
-                    Get.offNamed("/SelectGenderForVideo");
+                    setState(
+                      () {
+                        rewardAds();
+                        isLoading = true;
+                        Future.delayed(
+                          const Duration(seconds: 5),
+                          () {
+                            isLoading = false;
+                            Get.offNamed("/SelectGenderForVideo");
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               ],
             ),
+            isLoading
+                ? Center(
+                    child: Lottie.asset("assets/lottie/loading.json",
+                        width: 30.h, height: 30.h),
+                  )
+                : Container(),
           ],
         ),
       ),
     );
+  }
+
+  native() {
+    try {
+      nativeAd = NativeAd(
+        adUnitId: "${GlobalWidget.nativeAd}",
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (_) {
+            setState(
+              () {
+                isAdLoaded = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (ad, error) {
+            native();
+          },
+        ),
+      );
+      nativeAd?.load();
+    } on Exception {}
   }
 }

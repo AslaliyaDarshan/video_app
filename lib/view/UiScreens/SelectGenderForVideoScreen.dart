@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class SelectGenderForVideoScreen extends StatefulWidget {
@@ -16,6 +19,16 @@ class SelectGenderForVideoScreen extends StatefulWidget {
 class _SelectGenderForVideoScreenState
     extends State<SelectGenderForVideoScreen> {
   HomeController controller = Get.put(HomeController());
+  NativeAd? nativeAd;
+  bool isAdLoaded = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    native();
+    bannerAds();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +39,21 @@ class _SelectGenderForVideoScreenState
           children: [
             Column(
               children: [
-                Container(
-                  height: 20.h,
-                  color: Colors.white60,
-                ),
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
                 height(10.h),
                 GlobalWidget.poppinsText(
                     "Select Gender for VideoCall", Colors.white, 16.sp,
@@ -43,9 +67,19 @@ class _SelectGenderForVideoScreenState
                         () {
                           controller.mBlnSelect.value = true;
                           controller.mBlnSelect1.value = false;
-                          Timer(const Duration(milliseconds: 1000), () {
-                            Get.toNamed("/DashBoard");
-                          });
+                          setState(
+                            () {
+                              interVideoAds();
+                              isLoading = true;
+                              Future.delayed(
+                                const Duration(seconds: 5),
+                                () {
+                                  isLoading = false;
+                                  Get.offNamed("/DashBoard");
+                                },
+                              );
+                            },
+                          );
                         },
                         "assets/image/boy.jpg",
                         "Male",
@@ -60,9 +94,19 @@ class _SelectGenderForVideoScreenState
                         () {
                           controller.mBlnSelect1.value = true;
                           controller.mBlnSelect.value = false;
-                          Timer(const Duration(milliseconds: 1000), () {
-                            Get.toNamed("/DashBoard");
-                          });
+                          setState(
+                            () {
+                              interVideoAds();
+                              isLoading = true;
+                              Future.delayed(
+                                const Duration(seconds: 5),
+                                () {
+                                  isLoading = false;
+                                  Get.offNamed("/DashBoard");
+                                },
+                              );
+                            },
+                          );
                         },
                         "assets/image/girl.webp",
                         "Female",
@@ -78,13 +122,43 @@ class _SelectGenderForVideoScreenState
                 ),
               ],
             ),
+            isLoading
+                ? Center(
+                    child: Lottie.asset("assets/lottie/loading.json",
+                        width: 30.h, height: 30.h),
+                  )
+                : Container(),
             Container(
-              height: 16.h,
-              color: Colors.white60,
+              height: 9.h,
+              alignment: Alignment.bottomCenter,
+              child: AdWidget(ad: bannerAd!),
             ),
           ],
         ),
       ),
     );
+  }
+
+  native() {
+    try {
+      nativeAd = NativeAd(
+        adUnitId: "${GlobalWidget.nativeAd}",
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (_) {
+            setState(
+              () {
+                isAdLoaded = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (ad, error) {
+            native();
+          },
+        ),
+      );
+      nativeAd?.load();
+    } on Exception {}
   }
 }
