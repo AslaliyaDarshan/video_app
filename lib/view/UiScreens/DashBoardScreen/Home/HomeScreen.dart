@@ -9,6 +9,8 @@ import 'package:video_calling_app/model/VideoModel.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
+import '../Live/LiveScreen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -22,12 +24,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    //controller.playPause();
+    // controller.videoController.pause();
+    controller.index.value = 0;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    forback();
+    super.dispose();
+  }
+
+  void forback() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const SimpleDialog(
+          alignment: Alignment.center,
+          title: Text("Exit"),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: GlobalWidget.backgroundColor(
         Stack(
           children: [

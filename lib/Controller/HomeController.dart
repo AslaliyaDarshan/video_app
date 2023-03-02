@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:video_calling_app/model/VideoModel.dart';
@@ -6,7 +7,7 @@ import 'package:video_player/video_player.dart';
 
 class HomeController extends GetxController {
   static HomeController homeController = Get.put(HomeController());
-
+  late VideoPlayerController videoController;
   RxBool mBlnSelect = true.obs;
   RxBool mBlnSelect1 = false.obs;
   RxBool mBlnSelect2 = false.obs;
@@ -19,7 +20,7 @@ class HomeController extends GetxController {
   VideoModel? model;
   RxInt index = 0.obs;
 
-  String mStrName = "Hiiiii";
+  String mStrName = "";
   late String mStrFileName = "";
 
   late StreamSubscription subscription;
@@ -28,10 +29,12 @@ class HomeController extends GetxController {
 
   changeIndex(int i) {
     index.value = i;
+    update();
   }
 
   void playPause() {
     mBlnIsPlay.value = !mBlnIsPlay.value;
+    update();
   }
 
   getData(dynamic data_1) {

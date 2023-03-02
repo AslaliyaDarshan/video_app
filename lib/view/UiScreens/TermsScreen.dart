@@ -25,21 +25,19 @@ class _TermsScreenState extends State<TermsScreen> {
               left: 10,
               right: 10,
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 12),
-                    width: 100.w,
-                    height: 80.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white.withOpacity(0.8),
-                    ),
-                    child: const SelectableText("""Here there’s no place for:
-                                             
+            child: Column(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  height: MediaQuery.of(context).size.height / 1.33,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                  child: const SelectableText("""Here there’s no place for:
+                                           
 Harassment
 
 Don't publish or send messages, videos or photos with damaging, threatening, misleading, defamatory, rancorous, aggressive, racist, vulgar, denigrating, indecent, insulting, violent, obscene or pornographic content.
@@ -101,98 +99,80 @@ It isessential that if another user violates the Chat Rules or offends you any w
 
 Please Note: We are continually working hard and putting a high focus on preventing any violation of our Chat Rules and punish users who continue to breach them. However, we cannot be held responsible for the actions of all users and cannot guarantee that all violators will be banned. When you complain and report against violators, you are helping us make this app safer chat environment and helping us to find and remove all violators.
 By using our chat service, you accept and agree to the Chat Rules mentioned above. We reserve the right to change or amend these rules from time to time. We will attempt to notify users of such changes, howewer, it is the responsibility of all users on This App to track these changes themselves."""),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: Colors.pink.shade400,
-                        value: value1,
-                        onChanged: (bool? value) {
-                          value1 = value!;
-                          setState(() {});
-                        },
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ), //SizedBox
-                      Flexible(
-                        child: GlobalWidget.poppinsText(
-                            "I understand that sharing of inappropriate content wil not be tolerated.",
-                            Colors.white,
-                            8.sp),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: Colors.pink.shade400,
-                        value: value2,
-                        onChanged: (bool? value) {
-                          value2 = value!;
-                          setState(() {});
-                        },
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ), //SizedBox
-                      Flexible(
-                        child: GlobalWidget.poppinsText(
-                            "I Confirm that I'm 18 years old or above.",
-                            Colors.white,
-                            8.sp),
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () {
-                      (value1 == true && value2 == true)
-                          ? Get.offNamed("/IntroScreen")
-                          : GlobalWidget.warningDialog(
-                              "Please fill both boxes");
-                    },
-                    child: Container(
-                      height: 6.h,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 20),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.pink.shade400,
-                            blurRadius: 10,
-                            spreadRadius: 1.0,
-                            offset: const Offset(
-                              -3.0,
-                              -3.0,
-                            ),
-                          ),
-                          const BoxShadow(
-                            color: Colors.black45,
-                            blurRadius: 10,
-                            spreadRadius: 1.0,
-                            offset: Offset(
-                              3.0,
-                              3.0,
-                            ),
-                          )
-                        ],
-                      ),
-                      child: Text(
-                        "Confirm",
-                        style: TextStyle(
-                            color: const Color(0xFFF6405A).withOpacity(0.7),
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5),
-                      ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      activeColor: Colors.pink.shade400,
+                      value: value1,
+                      onChanged: (bool? value) {
+                        value1 = value!;
+                        setState(() {});
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ), //SizedBox
+                    Flexible(
+                      child: GlobalWidget.poppinsText(
+                          "I understand that sharing of inappropriate content wil not be tolerated.",
+                          Colors.white,
+                          8.sp),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      activeColor: Colors.pink.shade400,
+                      value: value2,
+                      onChanged: (bool? value) {
+                        value2 = value!;
+                        setState(() {});
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ), //SizedBox
+                    Flexible(
+                      child: GlobalWidget.poppinsText(
+                          "I Confirm that I'm 18 years old or above.",
+                          Colors.white,
+                          8.sp),
+                    ),
+                  ],
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  onTap: () {
+                    (value1 == true && value2 == true)
+                        ? Get.offNamed("/IntroScreen")
+                        : GlobalWidget.warningDialog(
+                            "Alert", "Please fill both boxes", onTap: () {
+                            Get.back();
+                          }, onTaps: () {
+                            Get.back();
+                          });
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(
+                          color: const Color(0xFFF6405A).withOpacity(0.7),
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

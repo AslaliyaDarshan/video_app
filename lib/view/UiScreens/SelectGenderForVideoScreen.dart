@@ -8,6 +8,8 @@ import 'package:video_calling_app/Controller/HomeController.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
+import 'DashBoardScreen/Live/LiveScreen.dart';
+
 class SelectGenderForVideoScreen extends StatefulWidget {
   const SelectGenderForVideoScreen({Key? key}) : super(key: key);
 
@@ -75,7 +77,7 @@ class _SelectGenderForVideoScreenState
                                 const Duration(seconds: 5),
                                 () {
                                   isLoading = false;
-                                  Get.offNamed("/DashBoard");
+                                  Get.toNamed("/DashBoard");
                                 },
                               );
                             },
@@ -102,7 +104,7 @@ class _SelectGenderForVideoScreenState
                                 const Duration(seconds: 5),
                                 () {
                                   isLoading = false;
-                                  Get.offNamed("/DashBoard");
+                                  Get.toNamed("/DashBoard");
                                 },
                               );
                             },

@@ -44,26 +44,6 @@ class GlobalWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.white70,
-              blurRadius: 10,
-              spreadRadius: 1.0,
-              offset: Offset(
-                -3.0,
-                -3.0,
-              ),
-            ),
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 10,
-              spreadRadius: 1.0,
-              offset: Offset(
-                3.0,
-                3.0,
-              ),
-            )
-          ],
         ),
         child: Text(
           "Confirm",
@@ -91,14 +71,14 @@ class GlobalWidget {
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Colors.white60,
-                  blurRadius: 15,
-                  spreadRadius: 0.2,
+                  color: Colors.black87.withOpacity(0.1),
+                  blurRadius: 20,
+                  spreadRadius: 0.5,
                   offset: Offset(
-                    5.0,
-                    5.0,
+                    2.0,
+                    2.0,
                   ),
                 )
               ],
@@ -135,14 +115,14 @@ class GlobalWidget {
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Colors.white60,
-                  blurRadius: 15,
-                  spreadRadius: 0.2,
+                  color: Colors.black87.withOpacity(0.2),
+                  blurRadius: 20,
+                  spreadRadius: 0.5,
                   offset: Offset(
-                    5.0,
-                    5.0,
+                    2.0,
+                    2.0,
                   ),
                 )
               ],
@@ -174,9 +154,10 @@ class GlobalWidget {
     );
   }
 
-  static warningDialog(String pStrWarningText) {
+  static warningDialog(String pStrTitle, String pStrWarningText,
+      {void Function()? onTap, void Function()? onTaps}) {
     return Get.defaultDialog(
-      title: "Alert",
+      title: pStrTitle,
       titleStyle: TextStyle(color: const Color(0xFFF6405A).withOpacity(0.7)),
       content: GlobalWidget.poppinsText(
           pStrWarningText, const Color(0xFFF6405A).withOpacity(0.7), 12.sp),
@@ -185,16 +166,16 @@ class GlobalWidget {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [button("Cancel"), button("Ok")],
+            children: [button(onTap!, "Cancel"), button(onTaps!, "Ok")],
           ),
         ),
       ],
     );
   }
 
-  static button(String pStrText) {
+  static button(void Function() onTap, String pStrText) {
     return InkWell(
-      onTap: () => Get.back(),
+      onTap: onTap,
       child: Container(
         height: 5.h,
         width: 20.w,

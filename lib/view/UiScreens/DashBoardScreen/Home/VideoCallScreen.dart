@@ -66,9 +66,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                           ),
                         ),
                   Align(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.bottomRight,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10, right: 10),
+                      padding: const EdgeInsets.only(bottom: 10, right: 8),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
@@ -116,13 +116,10 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   }
 
   Future<bool> dialog() async {
-    setState(
-      () {
-        controller.playPause();
-        videoController.pause();
-        Get.back();
-      },
-    );
+    controller.playPause();
+    videoController.pause();
+    Get.back();
+
     return false;
   }
 }

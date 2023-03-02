@@ -111,7 +111,12 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                   () {
                     HomeController.homeController.mStrFileName = file.path;
                     if (file.path.isEmpty) {
-                      GlobalWidget.warningDialog("Please Upload Image");
+                      GlobalWidget.warningDialog("Alert", "Please Upload Image",
+                          onTap: () {
+                        Get.back();
+                      }, onTaps: () {
+                        Get.back();
+                      });
                     } else {
                       setState(
                         () {

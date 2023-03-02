@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Controller/HomeController.dart';
-import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
+import 'package:video_calling_app/view/UiScreens/DashBoardScreen/DashBoardScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 import 'package:video_player/video_player.dart';
+
+late VideoPlayerController playerController;
 
 class LiveScreen extends StatefulWidget {
   const LiveScreen({Key? key}) : super(key: key);
@@ -20,7 +21,6 @@ class LiveScreen extends StatefulWidget {
 
 class _LiveScreenState extends State<LiveScreen> {
   HomeController controller = Get.put(HomeController());
-  late VideoPlayerController videoController;
 
   int cnt = 0;
   bool isLoading = false;
@@ -28,12 +28,14 @@ class _LiveScreenState extends State<LiveScreen> {
   @override
   void initState() {
     forVideo();
+    playerController.setVolume(0.0);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: WillPopScope(
         onWillPop: dialog,
         child: SafeArea(
@@ -46,10 +48,6 @@ class _LiveScreenState extends State<LiveScreen> {
                   itemCount: controller.list.length,
                   onPageChanged: (value) {
                     setState(() {
-                      setState(() {
-                        controller.playPause();
-                        videoController.pause();
-                      });
                       isLoading = true;
                     });
                     Timer(Duration(seconds: 3), () {
@@ -59,12 +57,9 @@ class _LiveScreenState extends State<LiveScreen> {
                       });
                     });
                     if (cnt % 2 == 0) {
-                      interAds();
+                      // interVideoAds();
                     }
-                    setState(() {
-                      controller.playPause();
-                      videoController.pause();
-                    });
+                    forVideo();
                   },
                   itemBuilder: (context, index) {
                     return Stack(
@@ -72,11 +67,11 @@ class _LiveScreenState extends State<LiveScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 1,
                           width: MediaQuery.of(context).size.width * 1,
-                          child: videoController.value.isInitialized
+                          child: playerController.value.isInitialized
                               ? AspectRatio(
                                   aspectRatio:
-                                      videoController.value.aspectRatio,
-                                  child: VideoPlayer(videoController))
+                                      playerController.value.aspectRatio,
+                                  child: VideoPlayer(playerController))
                               : Center(
                                   child: CircularProgressIndicator(
                                     color: Colors.pink.shade300,
@@ -94,7 +89,7 @@ class _LiveScreenState extends State<LiveScreen> {
                                     size: 30,
                                   ),
                                   onPressed: () {
-                                    Get.back();
+                                    Get.toNamed("/DashBoard");
                                   },
                                 ),
                                 const Padding(
@@ -146,7 +141,7 @@ class _LiveScreenState extends State<LiveScreen> {
                                         ),
                                       ),
                                       PopupMenuButton(
-                                        icon: Icon(Icons.more_vert,
+                                        icon: const Icon(Icons.more_vert,
                                             color: Colors.white),
                                         padding: const EdgeInsets.only(
                                             right: 4, top: 5),
@@ -161,34 +156,54 @@ class _LiveScreenState extends State<LiveScreen> {
                                         itemBuilder: (context) => [
                                           PopupMenuItem(
                                             value: 1,
-                                            onTap: () {},
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.report,
-                                                    color: Colors.pink.shade400,
-                                                    size: 22.sp),
-                                                width(4.w),
-                                                GlobalWidget.poppinsText(
-                                                    "Report",
-                                                    Colors.pink.shade400,
-                                                    13.sp),
-                                              ],
+                                            child: InkWell(
+                                              onTap: () {
+                                                reportDialog();
+                                              },
+                                              child: SizedBox(
+                                                height: 25,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.report,
+                                                        color: Colors
+                                                            .pink.shade400,
+                                                        size: 22.sp),
+                                                    width(4.w),
+                                                    GlobalWidget.poppinsText(
+                                                        "Report",
+                                                        Colors.pink.shade400,
+                                                        13.sp),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
                                           PopupMenuItem(
                                             value: 2,
-                                            onTap: () {},
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.block,
-                                                    color: Colors.pink.shade400,
-                                                    size: 22.sp),
-                                                width(4.w),
-                                                GlobalWidget.poppinsText(
-                                                    "Block",
-                                                    Colors.pink.shade400,
-                                                    13.sp),
-                                              ],
+                                            child: InkWell(
+                                              onTap: () {
+                                                GlobalWidget.warningDialog(
+                                                    "Block Video",
+                                                    "Block Video Please Enter Ok.",
+                                                    onTap: () {
+                                                  Get.back();
+                                                }, onTaps: () {
+                                                  dialog();
+                                                });
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.block,
+                                                      color:
+                                                          Colors.pink.shade400,
+                                                      size: 22.sp),
+                                                  width(4.w),
+                                                  GlobalWidget.poppinsText(
+                                                      "Block",
+                                                      Colors.pink.shade400,
+                                                      13.sp),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -220,12 +235,12 @@ class _LiveScreenState extends State<LiveScreen> {
                                               fit: BoxFit.fill,
                                               width: MediaQuery.of(context)
                                                       .size
-                                                      .width *
-                                                  0.1,
+                                                      .height *
+                                                  0.048,
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .height *
-                                                  0.045,
+                                                  0.048,
                                             ),
                                           ),
                                         ),
@@ -295,23 +310,133 @@ class _LiveScreenState extends State<LiveScreen> {
   void forVideo() {
     Random random = Random();
     int rnd = random.nextInt(controller.list.length);
-    videoController =
+    playerController =
         VideoPlayerController.asset("${controller.list[rnd].video}")
           ..initialize().then(
             (value) {
-              setState(() {
-                videoController.setLooping(true);
-                videoController.play();
-              });
+              setState(
+                () {
+                  playerController.setLooping(true);
+                  playerController.play();
+                },
+              );
             },
           );
   }
 
+  reportDialog() {
+    return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return InkWell(
+          onTap: () {
+            Get.toNamed("/DashBoard");
+          },
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 3.w),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                        child: Container(
+                          height: 0.5.h,
+                          width: 18.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Report",
+                          style: TextStyle(
+                              color: Colors.pink.shade200,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp),
+                        )),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text(
+                      "Why are you reporting this post?",
+                      style: TextStyle(
+                          color: Colors.pink.shade200,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text(
+                      "Your report is anonymous, except if you're reporting an intellectual property infringement. If someone is in immediate danger, call the local emergency services - don't wait.",
+                      style: TextStyle(color: Colors.pink.shade100),
+                    ),
+                    text("I just don't like it"),
+                    text("it's spam"),
+                    text("Nudity or sexual activity"),
+                    text("Hate speech or symbols"),
+                    text("Violence or dangerous organisations"),
+                    text("False information"),
+                    text("Bullying or harassment"),
+                    text("Scam or fraud"),
+                    text("Intellectual property violation"),
+                    text("Suicide or self-injury"),
+                    text("Sale of illegal or regulated goods"),
+                    text("Eating disorders"),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  text(String pStrText) {
+    return InkWell(
+      onTap: () {
+        dialog();
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 1.h),
+        child: Text(
+          pStrText,
+          style: TextStyle(
+              color: Colors.pink.shade200,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
+  }
+
   Future<bool> dialog() async {
     controller.playPause();
-    videoController.pause();
-    Get.back();
+    playerController.pause();
+    back();
     return await false;
+  }
+
+  back() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const DashBoardScreen()));
   }
 
   @override

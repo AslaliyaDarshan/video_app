@@ -89,7 +89,7 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                   () {
                     setState(
                       () {
-                        interAds();
+                        interVideoAds();
                         isLoading = true;
                         Future.delayed(
                           const Duration(seconds: 3),

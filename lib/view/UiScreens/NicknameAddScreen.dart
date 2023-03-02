@@ -106,7 +106,7 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                     } else {
                       setState(
                         () {
-                          interAds();
+                          interVideoAds();
                           isLoading = true;
                           Future.delayed(
                             const Duration(seconds: 3),

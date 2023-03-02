@@ -135,6 +135,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                     ],
                   ),
                 ),
+                height(2.h),
                 GlobalWidget.confirmButton(
                   () {
                     setState(
@@ -145,7 +146,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                           const Duration(seconds: 5),
                           () {
                             isLoading = false;
-                            Get.offNamed("/SelectGenderForVideo");
+                            Get.toNamed("/SelectGenderForVideo");
                           },
                         );
                       },

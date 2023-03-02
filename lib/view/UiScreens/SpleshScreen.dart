@@ -112,9 +112,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (controller.isDeviceConnected.value == false) {
       showDialogBox();
     } else {
-      Timer(
+      Future.delayed(
         const Duration(seconds: 3),
-        () => Get.offAllNamed("/DashBoard"),
+        () => Get.offAllNamed("/SelectGenderForVideo"),
+        // () => Get.offAllNamed("/TermsScreen"),
       );
       // }
     }

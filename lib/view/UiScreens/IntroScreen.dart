@@ -28,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
           children: [
             IntroductionScreen(
               key: introKey,
-              globalBackgroundColor: const Color(0xFFFF4F7E).withOpacity(0.7),
+              globalBackgroundColor: const Color(0xFFF66078).withOpacity(0.7),
               dotsDecorator: DotsDecorator(
                 activeColor: Colors.white,
                 color: Color(0xFF8C8989),
@@ -51,7 +51,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     interVideoAds();
                     isLoading = true;
                     Timer(
-                      const Duration(seconds: 5),
+                      const Duration(seconds: 7),
                       () {
                         isLoading = false;
                         Get.offNamed('/GenderSelect');
@@ -102,12 +102,9 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   Widget image(pStrUrl) {
-    return Padding(
-      padding: EdgeInsets.only(top: 5),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(13),
-        child: Image.asset(pStrUrl),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(13),
+      child: Image.asset(pStrUrl),
     );
   }
 
@@ -117,7 +114,6 @@ class _IntroScreenState extends State<IntroScreen> {
           GoogleFonts.courgette(fontSize: 20.sp, color: Colors.white),
       bodyTextStyle: GoogleFonts.courgette(
         fontSize: 15.sp,
-        //fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
     );

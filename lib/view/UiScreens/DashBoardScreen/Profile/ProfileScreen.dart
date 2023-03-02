@@ -15,15 +15,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   HomeController controller = Get.put(HomeController());
-@override
+  @override
   void initState() {
-  controller.mStrFileName;
-  controller.mStrName;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.mStrFileName;
+      controller.mStrName;
+    });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: GlobalWidget.backgroundColor(
         Stack(
@@ -61,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 20.h),
-                  padding: const EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

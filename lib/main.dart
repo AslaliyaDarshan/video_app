@@ -24,7 +24,7 @@ import 'view/UiScreens/SelectGenderForVideoScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize(); //Add this
+  MobileAds.instance.initialize();
   await FaceCamera.initialize();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -35,24 +35,28 @@ Future<void> main() async {
         builder: (context, orientation, deviceType) => GetMaterialApp(
           debugShowCheckedModeBanner: false,
           routes: {
-            "/": (context) => const SplashScreen(),
-            "/TermsScreen": (context) => const TermsScreen(),
-            "/IntroScreen": (context) => const IntroScreen(),
-            "/GenderSelect": (context) => const GenderSelectScreen(),
-            "/UserBirthday": (context) => const UserBirthdayScreen(),
-            "/NickName": (context) => const NickNameAddScreen(),
-            "/UploadImage": (context) => const UploadImageScreen(),
-            "/SelectYourGoal": (context) => const SelectYourGoalScreen(),
-            "/DashBoard": (context) => const DashBoardScreen(),
-            "/SelectGenderForVideo": (context) =>
+            "/": (BuildContext context) => const SplashScreen(),
+            "/TermsScreen": (BuildContext context) => const TermsScreen(),
+            "/IntroScreen": (BuildContext context) => const IntroScreen(),
+            "/GenderSelect": (BuildContext context) =>
+                const GenderSelectScreen(),
+            "/UserBirthday": (BuildContext context) =>
+                const UserBirthdayScreen(),
+            "/NickName": (BuildContext context) => const NickNameAddScreen(),
+            "/UploadImage": (BuildContext context) => const UploadImageScreen(),
+            "/SelectYourGoal": (BuildContext context) =>
+                const SelectYourGoalScreen(),
+            "/SelectGenderForVideo": (BuildContext context) =>
                 const SelectGenderForVideoScreen(),
-            "/HomeScreen": (context) => const HomeScreen(),
-            "/VideoCallScreen": (context) => const VideoCallScreen(),
-            "/LiveScreen": (context) => const LiveScreen(),
-            "/TabBarScreen": (context) => const TabBarScreen(),
-            "/CountryScreen": (context) => const CountryScreen(),
-            "/LanguageScreen": (context) => const LanguageScreen(),
-            "/ProfileScreen": (context) => const ProfileScreen(),
+            "/DashBoard": (BuildContext context) => const DashBoardScreen(),
+            "/HomeScreen": (BuildContext context) => const HomeScreen(),
+            "/VideoCallScreen": (BuildContext context) =>
+                const VideoCallScreen(),
+            "/LiveScreen": (BuildContext context) => const LiveScreen(),
+            "/TabBarScreen": (BuildContext context) => const TabBarScreen(),
+            "/CountryScreen": (BuildContext context) => const CountryScreen(),
+            "/LanguageScreen": (BuildContext context) => const LanguageScreen(),
+            "/ProfileScreen": (BuildContext context) => const ProfileScreen(),
           },
         ),
       ),

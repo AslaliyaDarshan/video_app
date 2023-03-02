@@ -14,8 +14,10 @@ class TabBarScreen extends StatefulWidget {
 class _TabBarScreenState extends State<TabBarScreen> {
   @override
   void initState() {
-    CountryScreen();
-    LanguageScreen();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      CountryScreen();
+      LanguageScreen();
+    });
     super.initState();
   }
 
