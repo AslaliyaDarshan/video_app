@@ -20,7 +20,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   void initState() {
-    playerController.setVolume(0.0);
+    controller.index.value = 0;
     super.initState();
   }
 
