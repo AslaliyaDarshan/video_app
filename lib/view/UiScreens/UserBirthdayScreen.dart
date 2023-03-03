@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
@@ -16,10 +15,11 @@ class UserBirthdayScreen extends StatefulWidget {
 }
 
 class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
-  HomeController controller = Get.put(HomeController());
   NativeAd? nativeAd;
   bool isAdLoaded = false;
   bool isLoading = false;
+  HomeProvider? hpt;
+  HomeProvider? hpf;
 
   @override
   void initState() {
@@ -30,6 +30,8 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    hpt = Provider.of<HomeProvider>(context, listen: true);
+    hpf = Provider.of<HomeProvider>(context, listen: false);
     return Scaffold(
       body: GlobalWidget.backgroundColor(
         Stack(
@@ -78,7 +80,7 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                       ),
                     ),
                     child: GlobalWidget.poppinsText(
-                        "${controller.date.day}/${controller.date.month}/${controller.date.year}",
+                        "${hpf!.date.day}/${hpf!.date.month}/${hpf!.date.year}",
                         const Color(0xFFF8256F),
                         15.sp,
                         pFontWeight: FontWeight.w500),
@@ -95,7 +97,8 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
                           const Duration(seconds: 3),
                           () {
                             isLoading = false;
-                            Get.offNamed("/NickName");
+                            Navigator.pushReplacementNamed(
+                                context, "/NickName");
                           },
                         );
                       },
@@ -149,7 +152,7 @@ class _UserBirthdayScreenState extends State<UserBirthdayScreen> {
       lastDate: DateTime(3000),
     );
     try {
-      controller.getData(data);
+      hpf!.getData(data);
       setState(() {});
     } catch (e) {}
   }

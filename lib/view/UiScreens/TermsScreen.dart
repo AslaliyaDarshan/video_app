@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
@@ -146,13 +145,18 @@ By using our chat service, you accept and agree to the Chat Rules mentioned abov
                   borderRadius: BorderRadius.circular(30),
                   onTap: () {
                     (value1 == true && value2 == true)
-                        ? Get.offNamed("/IntroScreen")
+                        ? Navigator.pushReplacementNamed(
+                            context, "/IntroScreen")
                         : GlobalWidget.warningDialog(
-                            "Alert", "Please fill both boxes", onTap: () {
-                            Get.back();
-                          }, onTaps: () {
-                            Get.back();
-                          });
+                            "Alert",
+                            "Please fill both boxes",
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            onTaps: () {
+                              Navigator.pop(context);
+                            },
+                          );
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.06,

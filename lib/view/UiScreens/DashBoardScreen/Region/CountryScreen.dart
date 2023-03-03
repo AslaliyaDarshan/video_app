@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/view/UiScreens/DashBoardScreen/DashBoardScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class CountryScreen extends StatefulWidget {
@@ -24,142 +25,145 @@ class _CountryScreenState extends State<CountryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GlobalWidget.backgroundColor(
-        SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              isAdLoaded
-                  ? Container(
-                      height: 20.h,
-                      padding: EdgeInsets.only(top: 5.h),
-                      alignment: Alignment.center,
-                      child: AdWidget(ad: nativeAd!),
-                    )
-                  : Container(
-                      height: 20.h,
-                      padding: EdgeInsets.only(top: 5.h),
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: Colors.white,
+    return WillPopScope(
+      onWillPop: dialog,
+      child: Scaffold(
+        body: GlobalWidget.backgroundColor(
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                isAdLoaded
+                    ? Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: AdWidget(ad: nativeAd!),
+                      )
+                    : Container(
+                        height: 20.h,
+                        padding: EdgeInsets.only(top: 5.h),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
+                Container(
+                  width: 100.w,
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
-              Container(
-                width: 100.w,
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("India", 1),
+                          text("Pakistan", 2),
+                          text("United State", 3),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Grenada", 4),
+                          text("Romania", 5),
+                          text("Malaysia", 6),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Chile", 7),
+                          text("Malawi", 8),
+                          text("Portugal", 9),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Tajikistan", 10),
+                          text("Monaco", 11),
+                          text("Iceland", 12),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Canada", 13),
+                          text("switzerland", 14),
+                          text("Australia", 15),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Chine", 16),
+                          text("Kuwait", 17),
+                          text("Thailand", 18),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("France", 19),
+                          text("Finland", 20),
+                          text("Iran", 21),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Italy", 22),
+                          text("France", 23),
+                          text("Japan", 24),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Malaysia", 25),
+                          text("Nepal", 26),
+                          text("New Zealand", 27),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Spain", 28),
+                          text("Ukraine", 29),
+                          text("Germany", 30),
+                        ],
+                      ),
+                      height(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text("Greece", 31),
+                          text("Ireland", 32),
+                          text("Sri Lanka", 33),
+                        ],
+                      ),
+                      height(8.h),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("India", 1),
-                        text("Pakistan", 2),
-                        text("United State", 3),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Grenada", 4),
-                        text("Romania", 5),
-                        text("Malaysia", 6),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Chile", 7),
-                        text("Malawi", 8),
-                        text("Portugal", 9),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Tajikistan", 10),
-                        text("Monaco", 11),
-                        text("Iceland", 12),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Canada", 13),
-                        text("switzerland", 14),
-                        text("Australia", 15),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Chine", 16),
-                        text("Kuwait", 17),
-                        text("Thailand", 18),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("France", 19),
-                        text("Finland", 20),
-                        text("Iran", 21),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Italy", 22),
-                        text("France", 23),
-                        text("Japan", 24),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Malaysia", 25),
-                        text("Nepal", 26),
-                        text("New Zealand", 27),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Spain", 28),
-                        text("Ukraine", 29),
-                        text("Germany", 30),
-                      ],
-                    ),
-                    height(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text("Greece", 31),
-                        text("Ireland", 32),
-                        text("Sri Lanka", 33),
-                      ],
-                    ),
-                    height(8.h),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -199,6 +203,16 @@ class _CountryScreenState extends State<CountryScreen> {
         child: GlobalWidget.poppinsText(pStrText, Colors.white, 13.sp),
       ),
     );
+  }
+
+  Future<bool> dialog() async {
+    back();
+    return false;
+  }
+
+  back() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const DashBoardScreen()));
   }
 
   native() {

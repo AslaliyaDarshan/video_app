@@ -3,16 +3,13 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_calling_app/model/ApiModel.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
-import 'package:video_calling_app/view/ApiHelper/ApiHelperClass.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +20,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  HomeController controller = Get.put(HomeController());
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
 
   @override
   void initState() {
@@ -56,19 +55,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   getConnectivity() {
-    controller.subscription = Connectivity().onConnectivityChanged.listen(
+    subscription = Connectivity().onConnectivityChanged.listen(
       (ConnectivityResult result) async {
-        controller.isDeviceConnected.value =
-            await InternetConnectionChecker().hasConnection;
-        print("internet---------->${controller.isDeviceConnected.value}");
-        if (controller.isDeviceConnected.value == false &&
-            controller.isAlertSet.value == false) {
-          if (mounted) {
-            setState(() => {
-                  showDialogBox(),
-                  controller.isAlertSet.value = true,
-                });
-          }
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (isDeviceConnected == false && isAlertSet == false) {
+          setState(
+            () => {
+              showDialogBox(),
+              isAlertSet = true,
+            },
+          );
         } else {
           getAd();
           isLogin();
@@ -85,23 +81,24 @@ class _SplashScreenState extends State<SplashScreen> {
           title: const Text("No Connection"),
           actions: <Widget>[
             TextButton(
-              onPressed: () async {
-                Navigator.pop(context, 'Cancel');
-
-                controller.isAlertSet.value = false;
-
-                controller.isDeviceConnected.value =
-                    await InternetConnectionChecker().hasConnection;
-                if (!controller.isDeviceConnected.value) {
-                  showDialogBox();
-                  controller.isAlertSet.value = true;
-                } else {
-                  ApiHelper().AdData();
-                  isLogin();
-                }
-              },
-              child: const Text("ok"),
-            ),
+                onPressed: () async {
+                  Navigator.pop(context, 'Cancel');
+                  setState(() {
+                    isAlertSet = false;
+                  });
+                  isDeviceConnected =
+                      await InternetConnectionChecker().hasConnection;
+                  if (!isDeviceConnected) {
+                    showDialogBox();
+                    setState(() {
+                      isAlertSet = true;
+                    });
+                  } else {
+                    getAd();
+                    isLogin();
+                  }
+                },
+                child: const Text("ok"))
           ],
         );
       },
@@ -109,14 +106,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void isLogin() async {
-    if (controller.isDeviceConnected.value == false) {
+    if (isDeviceConnected == false) {
       showDialogBox();
     } else {
-      Future.delayed(
-        const Duration(seconds: 3),
-        () => Get.offAllNamed("/SelectGenderForVideo"),
-        // () => Get.offAllNamed("/TermsScreen"),
-      );
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacementNamed(context, "/SelectGenderForVideo");
+        //  Navigator.pushReplacementNamed(context, "/TermsScreen");
+      });
       // }
     }
   }
@@ -130,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
       'Connection': 'keep-alive',
       'authorization': 'admin',
     };
-    String newslike = "http://3.108.31.187:8080/get-appkey/6";
+    String newslike = "http://3.108.31.187:8080/get-appkey/9";
     var newsString =
         await http.get(Uri.parse(newslike), headers: requestHeaders);
 

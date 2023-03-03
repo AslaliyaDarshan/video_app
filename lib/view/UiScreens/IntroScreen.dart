@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -29,10 +28,10 @@ class _IntroScreenState extends State<IntroScreen> {
             IntroductionScreen(
               key: introKey,
               globalBackgroundColor: const Color(0xFFF66078).withOpacity(0.7),
-              dotsDecorator: DotsDecorator(
+              dotsDecorator: const DotsDecorator(
                 activeColor: Colors.white,
                 color: Color(0xFF8C8989),
-                activeSize: const Size(11, 11),
+                activeSize: Size(11, 11),
               ),
               done: Text(
                 "START",
@@ -54,7 +53,8 @@ class _IntroScreenState extends State<IntroScreen> {
                       const Duration(seconds: 7),
                       () {
                         isLoading = false;
-                        Get.offNamed('/GenderSelect');
+                        Navigator.pushReplacementNamed(
+                            context, "/GenderSelect");
                       },
                     );
                   },

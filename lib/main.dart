@@ -1,9 +1,10 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/view/UiScreens/DashBoardScreen/DashBoardScreen.dart';
 import 'package:video_calling_app/view/UiScreens/GenderSelectScreen.dart';
 import 'package:video_calling_app/view/UiScreens/IntroScreen.dart';
@@ -31,33 +32,42 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]).then(
     (value) => runApp(
-      Sizer(
-        builder: (context, orientation, deviceType) => GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          routes: {
-            "/": (BuildContext context) => const SplashScreen(),
-            "/TermsScreen": (BuildContext context) => const TermsScreen(),
-            "/IntroScreen": (BuildContext context) => const IntroScreen(),
-            "/GenderSelect": (BuildContext context) =>
-                const GenderSelectScreen(),
-            "/UserBirthday": (BuildContext context) =>
-                const UserBirthdayScreen(),
-            "/NickName": (BuildContext context) => const NickNameAddScreen(),
-            "/UploadImage": (BuildContext context) => const UploadImageScreen(),
-            "/SelectYourGoal": (BuildContext context) =>
-                const SelectYourGoalScreen(),
-            "/SelectGenderForVideo": (BuildContext context) =>
-                const SelectGenderForVideoScreen(),
-            "/DashBoard": (BuildContext context) => const DashBoardScreen(),
-            "/HomeScreen": (BuildContext context) => const HomeScreen(),
-            "/VideoCallScreen": (BuildContext context) =>
-                const VideoCallScreen(),
-            "/LiveScreen": (BuildContext context) => const LiveScreen(),
-            "/TabBarScreen": (BuildContext context) => const TabBarScreen(),
-            "/CountryScreen": (BuildContext context) => const CountryScreen(),
-            "/LanguageScreen": (BuildContext context) => const LanguageScreen(),
-            "/ProfileScreen": (BuildContext context) => const ProfileScreen(),
-          },
+      MultiProvider(
+        providers: [
+          ListenableProvider<HomeProvider>(
+            create: (context) => HomeProvider(),
+          ),
+        ],
+        child: Sizer(
+          builder: (context, orientation, deviceType) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            routes: {
+              "/": (BuildContext context) => const SplashScreen(),
+              "/TermsScreen": (BuildContext context) => const TermsScreen(),
+              "/IntroScreen": (BuildContext context) => const IntroScreen(),
+              "/GenderSelect": (BuildContext context) =>
+                  const GenderSelectScreen(),
+              "/UserBirthday": (BuildContext context) =>
+                  const UserBirthdayScreen(),
+              "/NickName": (BuildContext context) => const NickNameAddScreen(),
+              "/UploadImage": (BuildContext context) =>
+                  const UploadImageScreen(),
+              "/SelectYourGoal": (BuildContext context) =>
+                  const SelectYourGoalScreen(),
+              "/SelectGenderForVideo": (BuildContext context) =>
+                  const SelectGenderForVideoScreen(),
+              "/DashBoard": (BuildContext context) => const DashBoardScreen(),
+              "/HomeScreen": (BuildContext context) => const HomeScreen(),
+              "/VideoCallScreen": (BuildContext context) =>
+                  const VideoCallScreen(),
+              "/LiveScreen": (BuildContext context) => const LiveScreen(),
+              "/TabBarScreen": (BuildContext context) => const TabBarScreen(),
+              "/CountryScreen": (BuildContext context) => const CountryScreen(),
+              "/LanguageScreen": (BuildContext context) =>
+                  const LanguageScreen(),
+              "/ProfileScreen": (BuildContext context) => const ProfileScreen(),
+            },
+          ),
         ),
       ),
     ),

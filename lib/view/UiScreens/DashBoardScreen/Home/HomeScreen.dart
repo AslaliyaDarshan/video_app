@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/model/VideoModel.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
+import 'package:video_calling_app/view/UiScreens/DashBoardScreen/Live/LiveScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
-
-import '../Live/LiveScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,37 +18,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeController controller = Get.put(HomeController());
   bool isLoading = false;
+  late HomeProvider hpt;
+  late HomeProvider hpf;
 
   @override
   void initState() {
-    //controller.playPause();
-    // controller.videoController.pause();
-    controller.index.value = 0;
+    setState(() {
+      Provider.of<HomeProvider>(context, listen: false).index = 0;
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    forback();
+    // forback();
     super.dispose();
   }
 
-  void forback() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const SimpleDialog(
-          alignment: Alignment.center,
-          title: Text("Exit"),
-        );
-      },
-    );
-  }
+  // void forback() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const SimpleDialog(
+  //         alignment: Alignment.center,
+  //         title: Text("Exit"),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
+    hpt = Provider.of<HomeProvider>(context, listen: true);
+    hpf = Provider.of<HomeProvider>(context, listen: false);
     return Scaffold(
       extendBody: true,
       body: GlobalWidget.backgroundColor(
@@ -57,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             GridView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: controller.list.length,
+              itemCount: hpf.list.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: 34.h,
@@ -71,16 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       setState(() {
                         isLoading = true;
                       });
-                      Future.delayed(const Duration(seconds: 5), () {
+                      Future.delayed(const Duration(seconds: 9), () {
                         setState(() {
                           isLoading = false;
                         });
-                        controller.model = VideoModel(
-                          name: controller.list[index].name,
-                          image: controller.list[index].image,
-                          video: controller.list[index].video,
+                        hpf.model = VideoModel(
+                          name: hpt.list[index].name,
+                          image: hpt.list[index].image,
+                          video: hpt.list[index].video,
                         );
-                        Get.toNamed("/VideoCallScreen");
+                        Navigator.pushReplacementNamed(
+                            context, "/VideoCallScreen");
                       });
                     },
                     child: Column(
@@ -99,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  "${controller.list[index].image}",
+                                  "${hpf.list[index].image}",
                                   fit: BoxFit.fill,
                                   height: 35.h,
                                   width: 48.w,
@@ -170,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: Text(
-                                                "${controller.list[index].name}",
+                                                "${hpf.list[index].name}",
                                                 style: TextStyle(
                                                     color: Colors.red.shade400,
                                                     fontSize: 10.sp,

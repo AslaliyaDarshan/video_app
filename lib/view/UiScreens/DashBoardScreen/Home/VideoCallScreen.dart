@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
-import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
+import 'package:video_calling_app/view/UiScreens/DashBoardScreen/DashBoardScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 import 'package:video_player/video_player.dart';
 
@@ -17,18 +17,22 @@ class VideoCallScreen extends StatefulWidget {
 }
 
 class _VideoCallScreenState extends State<VideoCallScreen> {
-  HomeController controller = Get.put(HomeController());
+  // HomeController controller = Get.put(HomeController());
   late VideoPlayerController videoController;
+  HomeProvider? hpt;
+  HomeProvider? hpf;
 
   @override
   void initState() {
     super.initState();
-    videoController = VideoPlayerController.asset("${controller.model?.video}")
+    videoController = VideoPlayerController.asset(
+        "${Provider.of<HomeProvider>(context, listen: false).model!.video}")
       ..initialize().then(
         (value) {
-          videoController.setLooping(true);
-          videoController.play();
-          setState(() {});
+          setState(() {
+            videoController.setLooping(true);
+            videoController.play();
+          });
         },
       );
   }
@@ -37,6 +41,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   @override
   Widget build(BuildContext context) {
+    hpt = Provider.of<HomeProvider>(context, listen: true);
+    hpf = Provider.of<HomeProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: dialog,
       child: Scaffold(
@@ -100,7 +106,10 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             height: 8.5.h,
             child: FloatingActionButton(
               onPressed: () {
-                dialog();
+                // dialog();
+                Provider.of<HomeProvider>(context, listen: false).playPause();
+                videoController.pause();
+                Navigator.pushNamed(context, "/DashBoard");
               },
               backgroundColor: Colors.white,
               child: Icon(
@@ -116,10 +125,20 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   }
 
   Future<bool> dialog() async {
-    controller.playPause();
+    Provider.of<HomeProvider>(context, listen: false).playPause();
     videoController.pause();
-    Get.back();
-
+    back();
     return false;
+  }
+
+  back() {
+    // Navigator.of(context, rootNavigator: true).pop();
+    Navigator.pushNamed(context, "/DashBoard");
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => const DashBoardScreen(),
+    //   ),
+    // );
   }
 }

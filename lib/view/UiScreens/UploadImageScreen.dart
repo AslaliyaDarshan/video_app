@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 
 import '../constant/ConstantsWidgets.dart';
@@ -109,13 +108,14 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 height(17.h),
                 GlobalWidget.confirmButton(
                   () {
-                    HomeController.homeController.mStrFileName = file.path;
+                    Provider.of<HomeProvider>(context, listen: false)
+                        .mStrFileName = file.path;
                     if (file.path.isEmpty) {
                       GlobalWidget.warningDialog("Alert", "Please Upload Image",
                           onTap: () {
-                        Get.back();
+                        Navigator.pop(context);
                       }, onTaps: () {
-                        Get.back();
+                        Navigator.pop(context);
                       });
                     } else {
                       setState(
@@ -126,7 +126,8 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                             const Duration(seconds: 5),
                             () {
                               isLoading = false;
-                              Get.offNamed("/SelectYourGoal");
+                              Navigator.pushReplacementNamed(
+                                  context, "/SelectYourGoal");
                             },
                           );
                         },
@@ -150,7 +151,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
   pickImage() {
     showModalBottomSheet(
-      backgroundColor: Colors.purple.shade600,
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return Container(
@@ -175,7 +176,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                   });
                 }
                 ;
-                Get.back();
+                Navigator.pop(context);
               }, "Take Photo"),
               text(() async {
                 ImagePicker img = ImagePicker();
@@ -186,10 +187,10 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 } catch (e) {}
                 setState(() {});
                 ;
-                Get.back();
+                Navigator.pop(context);
               }, "Choose From Library"),
               text(() {
-                Get.back();
+                Navigator.pop(context);
               }, "Cancel"),
             ],
           ),
@@ -200,7 +201,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
   button(String pStrText) {
     return InkWell(
-      onTap: () => Get.back(),
+      onTap: () => Navigator.pop(context),
       child: Container(
         height: 5.h,
         width: 20.w,

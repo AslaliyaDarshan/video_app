@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
@@ -16,10 +16,12 @@ class SelectYourGoalScreen extends StatefulWidget {
 }
 
 class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
-  HomeController controller = Get.put(HomeController());
+  // HomeController controller = Get.put(HomeController());
   NativeAd? nativeAd;
   bool isAdLoaded = false;
   bool isLoading = false;
+  late HomeProvider hpt;
+  late HomeProvider hpf;
 
   @override
   void initState() {
@@ -29,6 +31,8 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    hpt = Provider.of<HomeProvider>(context, listen: true);
+    hpf = Provider.of<HomeProvider>(context, listen: false);
     return Scaffold(
       body: GlobalWidget.backgroundColor(
         Stack(
@@ -55,85 +59,91 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                     "Select Your Goal", Colors.white, 20.sp,
                     pFontWeight: FontWeight.w500),
                 height(2.h),
-                Obx(
-                  () => Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GlobalWidget.selectYourGoal(
-                            () {
-                              controller.mBlnSelect.value = true;
-                              controller.mBlnSelect1.value = false;
-                              controller.mBlnSelect2.value = false;
-                              controller.mBlnSelect3.value = false;
-                            },
-                            "assets/image/goal.jpg",
-                            "Love",
-                            Border.all(
-                              color: controller.mBlnSelect.value == true
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              width: 3,
-                            ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GlobalWidget.selectYourGoal(
+                          () {
+                            setState(() {
+                              hpt.mBlnSelect = true;
+                              hpt.mBlnSelect1 = false;
+                              hpt.mBlnSelect2 = false;
+                              hpt.mBlnSelect3 = false;
+                            });
+                          },
+                          "assets/image/goal.jpg",
+                          "Love",
+                          Border.all(
+                            color: hpf.mBlnSelect == true
+                                ? Colors.white
+                                : Colors.transparent,
+                            width: 3,
                           ),
-                          GlobalWidget.selectYourGoal(
-                            () {
-                              controller.mBlnSelect.value = false;
-                              controller.mBlnSelect1.value = true;
-                              controller.mBlnSelect2.value = false;
-                              controller.mBlnSelect3.value = false;
-                            },
-                            "assets/image/goal1.jpg",
-                            "Only Girl",
-                            Border.all(
-                              color: controller.mBlnSelect1.value == false
-                                  ? Colors.transparent
-                                  : Colors.white,
-                              width: 3,
-                            ),
+                        ),
+                        GlobalWidget.selectYourGoal(
+                          () {
+                            setState(() {
+                              hpt.mBlnSelect = false;
+                              hpt.mBlnSelect1 = true;
+                              hpt.mBlnSelect2 = false;
+                              hpt.mBlnSelect3 = false;
+                            });
+                          },
+                          "assets/image/goal1.jpg",
+                          "Only Girl",
+                          Border.all(
+                            color: hpf.mBlnSelect1 == false
+                                ? Colors.transparent
+                                : Colors.white,
+                            width: 3,
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GlobalWidget.selectYourGoal(
-                            () {
-                              controller.mBlnSelect.value = false;
-                              controller.mBlnSelect1.value = false;
-                              controller.mBlnSelect2.value = true;
-                              controller.mBlnSelect3.value = false;
-                            },
-                            "assets/image/goal2.jpg",
-                            "Relationship",
-                            Border.all(
-                              color: controller.mBlnSelect2.value == true
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              width: 3,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GlobalWidget.selectYourGoal(
+                          () {
+                            setState(() {
+                              hpt.mBlnSelect = false;
+                              hpt.mBlnSelect1 = false;
+                              hpt.mBlnSelect2 = true;
+                              hpt.mBlnSelect3 = false;
+                            });
+                          },
+                          "assets/image/goal2.jpg",
+                          "Relationship",
+                          Border.all(
+                            color: hpf.mBlnSelect2 == true
+                                ? Colors.white
+                                : Colors.transparent,
+                            width: 3,
                           ),
-                          GlobalWidget.selectYourGoal(
-                            () {
-                              controller.mBlnSelect.value = false;
-                              controller.mBlnSelect1.value = false;
-                              controller.mBlnSelect2.value = false;
-                              controller.mBlnSelect3.value = true;
-                            },
-                            "assets/image/goal3.jpg",
-                            "Love Couple",
-                            Border.all(
-                              color: controller.mBlnSelect3.value == false
-                                  ? Colors.transparent
-                                  : Colors.white,
-                              width: 3,
-                            ),
+                        ),
+                        GlobalWidget.selectYourGoal(
+                          () {
+                            setState(() {
+                              hpt.mBlnSelect = false;
+                              hpt.mBlnSelect1 = false;
+                              hpt.mBlnSelect2 = false;
+                              hpt.mBlnSelect3 = true;
+                            });
+                          },
+                          "assets/image/goal3.jpg",
+                          "Love Couple",
+                          Border.all(
+                            color: hpf.mBlnSelect3 == false
+                                ? Colors.transparent
+                                : Colors.white,
+                            width: 3,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 height(2.h),
                 GlobalWidget.confirmButton(
@@ -146,7 +156,9 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                           const Duration(seconds: 5),
                           () {
                             isLoading = false;
-                            Get.toNamed("/SelectGenderForVideo");
+                            Navigator.pushReplacementNamed(
+                                context, "/SelectGenderForVideo");
+                            // Get.toNamed("/SelectGenderForVideo");
                           },
                         );
                       },

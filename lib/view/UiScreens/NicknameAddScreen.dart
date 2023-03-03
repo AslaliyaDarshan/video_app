@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:video_calling_app/Controller/HomeController.dart';
+import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
 
@@ -21,6 +21,8 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
   NativeAd? nativeAd;
   bool isAdLoaded = false;
   bool isLoading = false;
+  HomeProvider? hpt;
+  HomeProvider? hpf;
 
   @override
   void initState() {
@@ -31,6 +33,8 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    hpt = Provider.of<HomeProvider>(context, listen: true);
+    hpf = Provider.of<HomeProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GlobalWidget.backgroundColor(
@@ -85,7 +89,7 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                       ),
                     ),
                     onChanged: (value) {
-                      HomeController.homeController.mStrName = value;
+                      hpt!.mStrName = value;
                       value.length > 3
                           ? mBlnValidation == false
                           : mBlnValidation == true;
@@ -112,7 +116,7 @@ class _NickNameAddScreenState extends State<NickNameAddScreen> {
                             const Duration(seconds: 3),
                             () {
                               isLoading = false;
-                              Get.offAllNamed("/UploadImage");
+                              Navigator.pushReplacementNamed(context, "/UploadImage");
                             },
                           );
                         },
