@@ -109,11 +109,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (isDeviceConnected == false) {
       showDialogBox();
     } else {
-      Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, "/SelectGenderForVideo");
-        //  Navigator.pushReplacementNamed(context, "/TermsScreen");
+      Future.delayed(const Duration(seconds: 5), () {
+        Navigator.pushReplacementNamed(context, "/TermsScreen");
+        //Navigator.pushReplacementNamed(context, "/SelectGenderForVideo");
       });
-      // }
     }
   }
 

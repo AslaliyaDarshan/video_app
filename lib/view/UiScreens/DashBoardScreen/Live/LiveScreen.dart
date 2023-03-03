@@ -26,7 +26,7 @@ class _LiveScreenState extends State<LiveScreen> {
   int cnt = 0;
   bool isLoading = false;
   bool change = false;
-  late VideoPlayerController playerController;
+  // late VideoPlayerController playerController;
 
   @override
   void initState() {
@@ -44,10 +44,10 @@ class _LiveScreenState extends State<LiveScreen> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Swiper(
+            PageView.builder(
               scrollDirection: Axis.vertical,
               itemCount: hpf.list.length,
-              onIndexChanged: (value) {
+              onPageChanged: (value) {
                 setState(() {
                   isLoading = true;
                 });
@@ -57,9 +57,9 @@ class _LiveScreenState extends State<LiveScreen> {
                     cnt++;
                   });
                 });
-                if (cnt % 2 == 0) {
-                  interAds();
-                  // interVideoAds();
+                if (cnt % 3 == 0) {
+                  //interAds();
+                  interVideoAds();
                 }
                 forVideo();
               },
@@ -304,8 +304,8 @@ class _LiveScreenState extends State<LiveScreen> {
         (value) {
           setState(
             () {
-              // playerController.setLooping(true);
-              // playerController.play();
+              playerController.setLooping(true);
+              playerController.play();
             },
           );
         },

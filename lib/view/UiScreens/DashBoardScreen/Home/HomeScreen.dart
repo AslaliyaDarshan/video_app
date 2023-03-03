@@ -7,8 +7,10 @@ import 'package:sizer/sizer.dart';
 import 'package:video_calling_app/Provider/HomeProvider.dart';
 import 'package:video_calling_app/model/VideoModel.dart';
 import 'package:video_calling_app/view/ApiHelper/AdScreen.dart';
+import 'package:video_calling_app/view/UiScreens/DashBoardScreen/Home/VideoCallScreen.dart';
 import 'package:video_calling_app/view/UiScreens/DashBoardScreen/Live/LiveScreen.dart';
 import 'package:video_calling_app/view/constant/ConstantsWidgets.dart';
+import 'package:video_player/video_player.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,9 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    Provider.of<HomeProvider>(context, listen: false).list;
+
     setState(() {
       Provider.of<HomeProvider>(context, listen: false).index = 0;
     });
+
     super.initState();
   }
 
@@ -73,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       setState(() {
                         isLoading = true;
                       });
-                      Future.delayed(const Duration(seconds: 9), () {
+                      Timer(const Duration(seconds: 7), () {
                         setState(() {
                           isLoading = false;
                         });
@@ -82,8 +87,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           image: hpt.list[index].image,
                           video: hpt.list[index].video,
                         );
-                        Navigator.pushReplacementNamed(
-                            context, "/VideoCallScreen");
+                        videoController = VideoPlayerController.asset(
+                            "${Provider.of<HomeProvider>(context, listen: false).model?.video}")
+                          ..initialize().then(
+                            (value) {
+                              setState(() {
+                                videoController.setLooping(true);
+                                videoController.play();
+                              });
+                            },
+                          );
+                        Navigator.pushNamed(context, "/VideoCallScreen");
                       });
                     },
                     child: Column(

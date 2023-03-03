@@ -37,26 +37,6 @@ class HomeProvider extends ChangeNotifier {
 
   List<VideoModel> list = [
     VideoModel(
-        name: "Leena",
-        image: "assets/videoImage/i2.jpg",
-        video: "assets/video/2.mp4"),
-    VideoModel(
-        name: "Vaira",
-        image: "assets/videoImage/i15.jpg",
-        video: "assets/video/15.mp4"),
-    VideoModel(
-        name: " Ananya",
-        image: "assets/videoImage/p32.png",
-        video: "assets/video/32.mp4"),
-    VideoModel(
-        name: "Shreya",
-        image: "assets/videoImage/i16.jpg",
-        video: "assets/video/16.mp4"),
-    VideoModel(
-        name: "Krisha",
-        image: "assets/videoImage/i17.jpg",
-        video: "assets/video/17.mp4"),
-    VideoModel(
         name: "Henu",
         image: "assets/videoImage/i18.jpg",
         video: "assets/video/18.mp4"),
@@ -128,6 +108,26 @@ class HomeProvider extends ChangeNotifier {
         name: "Laura",
         image: "assets/videoImage/i7.jpg",
         video: "assets/video/7.mp4"),
+    VideoModel(
+        name: "Leena",
+        image: "assets/videoImage/i2.jpg",
+        video: "assets/video/2.mp4"),
+    VideoModel(
+        name: "Vaira",
+        image: "assets/videoImage/i15.jpg",
+        video: "assets/video/15.mp4"),
+    VideoModel(
+        name: " Ananya",
+        image: "assets/videoImage/p32.png",
+        video: "assets/video/32.mp4"),
+    VideoModel(
+        name: "Shreya",
+        image: "assets/videoImage/i16.jpg",
+        video: "assets/video/16.mp4"),
+    VideoModel(
+        name: "Krisha",
+        image: "assets/videoImage/i17.jpg",
+        video: "assets/video/17.mp4"),
     VideoModel(
         name: "Naina",
         image: "assets/videoImage/p34.png",

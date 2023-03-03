@@ -150,7 +150,7 @@ class _SelectYourGoalScreenState extends State<SelectYourGoalScreen> {
                   () {
                     setState(
                       () {
-                        rewardAds();
+                        interVideoAds();
                         isLoading = true;
                         Future.delayed(
                           const Duration(seconds: 5),
